@@ -1,5 +1,10 @@
 // web rout will be : http://localhost:3000/api/sign-up
 // Algo-psudocode Notion: https://shorturl.at/dlfFQ
+/* 
+import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
+import dbConnect from "@/lib/dbConnect.ts";
+import UserModel from "@/model/User.model";
+import bcrypt from "bcryptjs"; */
 
 import { sendVerificationEmail } from "@/helpers/sendVerificationEmail";
 import dbConnect from "@/lib/dbConnect.ts";
@@ -64,8 +69,7 @@ export async function POST(request: Request) {
         password: hashedPassword,
         verifyCode,
         verifyCodeExpiry: expiryDate,
-        isVerified: false,
-        isAcceptingMessages: true,
+        // isVerified: false, //
         messages: [],
       });
 
@@ -78,7 +82,7 @@ export async function POST(request: Request) {
       username,
       verifyCode
     );
-    console.log(emailResponse);
+
     if (!emailResponse.success) {
       // email sending failed
       return Response.json(

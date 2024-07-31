@@ -20,16 +20,12 @@ export async function GET(request: Request) {
     // url : http://localhost:3000/check-username-unique?username=asif?query2=itsQuery2example
     const { searchParams } = new URL(request.url); // may be, searchParams=username=asif?query2=itsQuery2example
     console.log("searchParams", searchParams);
-    console.log("searchParams.get('username') :", searchParams.get("username"));
     const queryParams = {
       username: searchParams.get("username"), // asif
     };
 
     // step-2: search is queryParams meets the schema-requirement
     const result = UsernameQuerySchema.safeParse(queryParams); // returns true || false
-    console.log(result); // home work
-    console.log(result.error); // home work
-    console.log(result.data); // home work
 
     if (!result.success) {
       const usernameErrors = result.error.format().username?._errors || [];

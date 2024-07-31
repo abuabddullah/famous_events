@@ -14,6 +14,7 @@ import { verifySchema } from "@/schemas/verifySchema";
 import { ApiResponseType } from "@/types/ApiResponseTypes";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
+import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
@@ -61,6 +62,18 @@ export default function VerifyAccount() {
             Verify Your Account
           </h1>
           <p className="mb-4">Enter the verification code sent to your email</p>
+          <p>
+            <small>
+              hi<strong> {params.username},</strong> this feature will be
+              implimented in future
+              <br />
+              for now you are{" "}
+              <strong className="text-green-400">already verified</strong> by
+              default
+              <br />
+              plz, just<strong> skip</strong>
+            </small>
+          </p>
         </div>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
@@ -78,6 +91,9 @@ export default function VerifyAccount() {
             <Button type="submit">Verify</Button>
           </form>
         </Form>
+        <Button>
+          <Link href="/">Skip Verifying</Link>
+        </Button>
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
-
+/* 
 export interface Message extends Document {
   // _id: string;
   content: string;
@@ -17,16 +17,15 @@ const MessageSchema: Schema<Message> = new mongoose.Schema({
     default: Date.now,
   },
 });
-
+ */
 export interface User extends Document {
   username: string;
+  avatar: string;
   email: string;
   password: string;
   verifyCode: string;
   verifyCodeExpiry: Date;
   isVerified: boolean;
-  isAcceptingMessages: boolean;
-  messages: Message[];
 }
 
 // Updated User schema
@@ -36,6 +35,11 @@ const UserSchema: Schema<User> = new mongoose.Schema({
     required: [true, "Username is required"],
     trim: true,
     unique: true,
+  },
+  avatar: {
+    type: String,
+    required: [true, "Profile Avatar is required"],
+    default: "https://i.ibb.co/bNj02BN/proavatar.png",
   },
   email: {
     type: String,
@@ -57,13 +61,8 @@ const UserSchema: Schema<User> = new mongoose.Schema({
   },
   isVerified: {
     type: Boolean,
-    default: false,
-  },
-  isAcceptingMessages: {
-    type: Boolean,
     default: true,
   },
-  messages: [MessageSchema],
 });
 
 const UserModel =

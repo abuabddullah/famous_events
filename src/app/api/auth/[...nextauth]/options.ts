@@ -52,11 +52,11 @@ export const authOptions: NextAuthOptions = {
     // deliver infos that rcvd from [CredentialsProvider's-user -> token -> session.user]
     async jwt({ token, user }) {
       if (user) {
-        // need to declare custom types in "next-auth" for _id,isVerified,isAcceptingMessages,username or will give err path: src\types\next-auth.d.ts
+        // need to declare custom types in "next-auth" for _id,isVerified,username or will give err path: src\types\next-auth.d.ts
         token._id = user._id?.toString(); // Convert ObjectId to string
         token.isVerified = user.isVerified;
-        token.isAcceptingMessages = user.isAcceptingMessages;
         token.username = user.username;
+        token.avatar = user.avatar;
       }
       return token;
     },
@@ -64,8 +64,8 @@ export const authOptions: NextAuthOptions = {
       if (token) {
         session.user._id = token._id;
         session.user.isVerified = token.isVerified;
-        session.user.isAcceptingMessages = token.isAcceptingMessages;
         session.user.username = token.username;
+        session.user.avatar = token.avatar;
       }
       return session;
     },

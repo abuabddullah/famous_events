@@ -1,8 +1,9 @@
+import Navbar from "@/components/Navbar";
+import { Toaster } from "@/components/ui/toaster";
 import AuthProvider from "@/context/AuthProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Toaster } from "@/components/ui/toaster";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -20,11 +21,12 @@ export default function RootLayout({
     <html lang="en">
       <AuthProvider>
         <body className={inter.className}>
+          <Navbar />
           {children}
           <Toaster />
 
           <footer className="text-center p-4 md:p-6 bg-gray-900 text-white">
-            © 2024 True Feedback. All rights reserved.
+            © 2024 Famous_Events. All rights reserved.
           </footer>
         </body>
       </AuthProvider>
