@@ -92,7 +92,7 @@ export default function VerifyAccount() {
           </form>
         </Form>
         <Button>
-          <Link href="/">Skip Verifying</Link>
+          <Link href="/sign-in">Skip & Login</Link>
         </Button>
       </div>
     </div>

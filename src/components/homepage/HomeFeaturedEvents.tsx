@@ -1,18 +1,5 @@
+import { Event } from "@/model/Event.model";
 import { useEffect, useState } from "react";
-
-export interface Event {
-  title: string;
-  description: string;
-  date: string;
-  time: string;
-  location: string;
-  category: string;
-  ticketPrice: string;
-  ratings: any[];
-  images: string[];
-  comments: any[];
-  visitors: any[];
-}
 
 export const eventsData: Event[] = [
   {
@@ -23,7 +10,7 @@ export const eventsData: Event[] = [
     time: "09:00 AM",
     location: "Tech City Convention Center, 123 Innovation Drive, Tech City",
     category: "Conferences",
-    ticketPrice: "$299.00",
+    ticketPrice: 299.0,
     ratings: [
       {
         username: "JaneDoe42",
@@ -64,7 +51,7 @@ export const eventsData: Event[] = [
     time: "09:00 AM",
     location: "Tech City Convention Center, 123 Innovation Drive, Tech City",
     category: "Conferences",
-    ticketPrice: "$299.00",
+    ticketPrice: 299.0,
 
     ratings: [
       {
@@ -106,7 +93,7 @@ export const eventsData: Event[] = [
     time: "10:00 AM",
     location: "Creative Arts Studio, 456 Art Lane, Art Town",
     category: "Workshops",
-    ticketPrice: "$150.00",
+    ticketPrice: 150.0,
 
     ratings: [
       {
@@ -148,7 +135,7 @@ export const eventsData: Event[] = [
     time: "10:00 AM",
     location: "Creative Arts Studio, 456 Art Lane, Art Town",
     category: "Workshops",
-    ticketPrice: "$150.00",
+    ticketPrice: 150.0,
 
     ratings: [
       {
@@ -190,7 +177,7 @@ export const eventsData: Event[] = [
     time: "12:00 PM",
     location: "Central Park, 789 Festival Road, Music City",
     category: "Concerts",
-    ticketPrice: "$75.00",
+    ticketPrice: 75.0,
 
     ratings: [
       {
@@ -231,7 +218,7 @@ export const eventsData: Event[] = [
     time: "12:00 PM",
     location: "Central Park, 789 Festival Road, Music City",
     category: "Concerts",
-    ticketPrice: "$75.00",
+    ticketPrice: 75.0,
 
     ratings: [
       {
@@ -305,7 +292,7 @@ const HomeFeaturedEvents = () => {
     <section
       className="flex-grow flex flex-col items-center justify-center px-4 md:px-24 py-12 bg-gray-800 text-white"
       style={{
-        backgroundImage: "url('/assets/event2.jpg')",
+        backgroundImage: "url('/assets/event as bg.jpg')",
       }}
     >
       <div className="text-center mb-8 md:mb-12">
@@ -316,7 +303,7 @@ const HomeFeaturedEvents = () => {
           Famous Events - Where your memory remains a safe.
         </p>
       </div>
-      <div className="p-6 max-w-4xl mx-auto">
+      <div className="p-6 w-full mx-auto">
         <div className="mb-6">
           <input
             type="text"
@@ -327,12 +314,12 @@ const HomeFeaturedEvents = () => {
           />
         </div>
 
-        <div className="mb-6 flex space-x-4">
+        <div className="mb-6">
           {categories.map((category) => (
             <button
               key={category}
               onClick={() => setSelectedCategory(category)}
-              className={`px-4 py-2 rounded ${
+              className={`m-2 px-4 py-2 rounded ${
                 selectedCategory === category
                   ? "bg-slate-800 text-white"
                   : "bg-gray-200 text-black"
@@ -343,12 +330,12 @@ const HomeFeaturedEvents = () => {
           ))}
         </div>
 
-        <div className="space-y-6">
+        <div className="space-y-6 lg:h-[78vh] overflow-hidden overflow-y-auto no-scrollbar">
           {filteredEvents.length > 0 ? (
             filteredEvents.map((event, index) => (
               <div
                 key={index}
-                className="border border-gray-300 p-4 rounded-lg shadow-md"
+                className="border border-gray-300 p-4 rounded-lg shadow-md bg-[#161711] bg-opacity-50 hover:bg-opacity-85 delay-150 transition-opacity"
               >
                 <h2 className="text-xl font-bold mb-2">{event.title}</h2>
                 <p className="text-gray-300 mb-2">{event.description}</p>

@@ -1,31 +1,15 @@
 import mongoose, { Document, Schema } from "mongoose";
-/* 
-export interface Message extends Document {
-  // _id: string;
-  content: string;
-  createdAt: Date;
-}
 
-const MessageSchema: Schema<Message> = new mongoose.Schema({
-  content: {
-    type: String,
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    required: true,
-    default: Date.now,
-  },
-});
- */
 export interface User extends Document {
   username: string;
   avatar: string;
+  role: string;
   email: string;
   password: string;
   verifyCode: string;
   verifyCodeExpiry: Date;
   isVerified: boolean;
+  events: any[];
 }
 
 // Updated User schema
@@ -40,6 +24,12 @@ const UserSchema: Schema<User> = new mongoose.Schema({
     type: String,
     required: [true, "Profile Avatar is required"],
     default: "https://i.ibb.co/bNj02BN/proavatar.png",
+  },
+  role: {
+    type: String,
+    required: [true, "Role is required"],
+    enum: ["user", "admin"],
+    default: "user",
   },
   email: {
     type: String,
@@ -63,6 +53,7 @@ const UserSchema: Schema<User> = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
+  events: [],
 });
 
 const UserModel =

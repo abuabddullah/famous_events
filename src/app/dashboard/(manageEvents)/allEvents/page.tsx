@@ -1,39 +1,7 @@
-import Image from "next/image";
+"use client";
 
-const productData = [
-  {
-    image: "/images/product/product-01.png",
-    name: "Apple Watch Series 7",
-    category: "Electronics",
-    price: 296,
-    sold: 22,
-    profit: 45,
-  },
-  {
-    image: "/images/product/product-02.png",
-    name: "Macbook Pro M1",
-    category: "Electronics",
-    price: 546,
-    sold: 12,
-    profit: 125,
-  },
-  {
-    image: "/images/product/product-03.png",
-    name: "Dell Inspiron 15",
-    category: "Electronics",
-    price: 443,
-    sold: 64,
-    profit: 247,
-  },
-  {
-    image: "/images/product/product-04.png",
-    name: "HP Probook 450",
-    category: "Electronics",
-    price: 499,
-    sold: 72,
-    profit: 103,
-  },
-];
+import { eventsData } from "@/components/homepage/HomeFeaturedEvents";
+import Image from "next/image";
 
 const AllEvents = () => {
   return (
@@ -47,7 +15,7 @@ const AllEvents = () => {
 
         <div className="grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5">
           <div className="col-span-3 flex items-center">
-            <p className="font-medium">Product Name</p>
+            <p className="font-medium">Title</p>
           </div>
           <div className="col-span-2 hidden items-center sm:flex">
             <p className="font-medium">Category</p>
@@ -56,14 +24,14 @@ const AllEvents = () => {
             <p className="font-medium">Price</p>
           </div>
           <div className="col-span-1 flex items-center">
-            <p className="font-medium">Sold</p>
+            <p className="font-medium">Location</p>
           </div>
           <div className="col-span-1 flex items-center">
-            <p className="font-medium">Profit</p>
+            <p className="font-medium">Time</p>
           </div>
         </div>
 
-        {productData.map((product, key) => (
+        {eventsData.map((event, key) => (
           <div
             className="grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5"
             key={key}
@@ -72,34 +40,36 @@ const AllEvents = () => {
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                 <div className="h-12.5 w-15 rounded-md">
                   <Image
-                    src={product.image}
+                    src={event?.images[0]}
                     width={60}
                     height={50}
                     alt="Product"
                   />
                 </div>
                 <p className="text-sm text-black dark:text-white">
-                  {product.name}
+                  {event?.title}
                 </p>
               </div>
             </div>
             <div className="col-span-2 hidden items-center sm:flex">
               <p className="text-sm text-black dark:text-white">
-                {product.category}
+                {event?.category}
               </p>
             </div>
             <div className="col-span-1 flex items-center">
               <p className="text-sm text-black dark:text-white">
-                ${product.price}
+                ${event?.ticketPrice}
               </p>
             </div>
             <div className="col-span-1 flex items-center">
               <p className="text-sm text-black dark:text-white">
-                {product.sold}
+                {event?.location}
               </p>
             </div>
             <div className="col-span-1 flex items-center">
-              <p className="text-sm text-meta-3">${product.profit}</p>
+              <p className="text-sm text-meta-3">
+                on ${event?.date} at {event?.time}
+              </p>
             </div>
           </div>
         ))}
