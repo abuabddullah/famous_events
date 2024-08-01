@@ -1,6 +1,5 @@
 "use client";
 
-import { Event } from "@/components/homepage/HomeFeaturedEvents";
 import {
   Carousel,
   CarouselContent,
@@ -21,6 +20,7 @@ import Autoplay from "embla-carousel-autoplay";
 
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { Event } from "@/model/Event.model";
 import { AngryIcon, ArrowBigDownIcon, Clock, HeartIcon } from "lucide-react";
 import Image from "next/image";
 
