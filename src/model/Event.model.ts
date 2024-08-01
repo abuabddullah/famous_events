@@ -3,7 +3,7 @@ import mongoose, { Document, Schema } from "mongoose";
 export interface Event extends Document {
   title: string;
   description: string;
-  date: Date;
+  date: any;
   time: string;
   location: string;
   category: string;

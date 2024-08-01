@@ -20,13 +20,12 @@ import Autoplay from "embla-carousel-autoplay";
 
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Event } from "@/model/Event.model";
 import { AngryIcon, ArrowBigDownIcon, Clock, HeartIcon } from "lucide-react";
 import Image from "next/image";
 
 const EventDetails = () => {
   const params = useParams();
-  const [event, setEvent] = useState<Event>({
+  const [event, setEvent] = useState({
     title: "Innovators 2024",
     description:
       "Join us for the Tech Innovators Conference 2024, a premier event featuring keynote speakers from leading tech companies, panel discussions on emerging technologies, and networking opportunities with industry leaders.",
@@ -34,7 +33,7 @@ const EventDetails = () => {
     time: "09:00 AM",
     location: "Tech City Convention Center, 123 Innovation Drive, Tech City",
     category: "Conferences",
-    ticketPrice: "$299.00",
+    ticketPrice: 299.0,
     ratings: [
       {
         username: "JaneDoe42",

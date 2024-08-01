@@ -1,5 +1,18 @@
-import { Event } from "@/model/Event.model";
 import { useEffect, useState } from "react";
+
+export interface Event {
+  title: string;
+  description: string;
+  date: string;
+  time: string;
+  location: string;
+  category: string;
+  ticketPrice: number;
+  ratings: any[];
+  images: string[];
+  comments: any[];
+  visitors: any[];
+}
 
 export const eventsData: Event[] = [
   {
