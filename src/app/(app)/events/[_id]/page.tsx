@@ -151,7 +151,7 @@ const EventDetails = () => {
           <div className="grid w-full gap-2">
             <Textarea
               className="text-black"
-              placeholder="Type your message here."
+              placeholder="Type your comment here."
             />
             <Button>Comment Now</Button>
           </div>

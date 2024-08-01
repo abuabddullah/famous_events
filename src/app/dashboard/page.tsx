@@ -1,7 +1,13 @@
-import React from "react";
+"use client";
 
-const Dashboard = () => {
-  return <div>Dashboard</div>;
+import ProfileAtDashIndex from "@/components/dashboard/ProfileAtDashIndex";
+
+const DashboardIndexPage = () => {
+  return (
+    <>
+      <ProfileAtDashIndex />
+    </>
+  );
 };
 
-export default Dashboard;
+export default DashboardIndexPage;

@@ -1,3 +1,5 @@
+import Footer from "@/components/shared/Footer";
+import Navbar from "@/components/shared/Navbar";
 import { Toaster } from "@/components/ui/toaster";
 import AuthProvider from "@/context/AuthProvider";
 import type { Metadata } from "next";
@@ -20,8 +22,11 @@ export default function RootLayout({
     <html lang="en">
       <AuthProvider>
         <body className={inter.className}>
+          <Navbar />
           {children}
           <Toaster />
+
+          <Footer />
         </body>
       </AuthProvider>
     </html>
