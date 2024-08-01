@@ -21,16 +21,8 @@ import Autoplay from "embla-carousel-autoplay";
 
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  AngryIcon,
-  ArrowBigDownDash,
-  ArrowBigDownIcon,
-  ArrowDown,
-  Clock,
-  HeartIcon,
-} from "lucide-react";
+import { AngryIcon, ArrowBigDownIcon, Clock, HeartIcon } from "lucide-react";
 import Image from "next/image";
-import { Separator } from "@/components/ui/separator";
 
 const EventDetails = () => {
   const params = useParams();
@@ -43,7 +35,13 @@ const EventDetails = () => {
     location: "Tech City Convention Center, 123 Innovation Drive, Tech City",
     category: "Conferences",
     ticketPrice: "$299.00",
-    rating: 4.7,
+    ratings: [
+      {
+        username: "JaneDoe42",
+        avatar: "https://i.ibb.co/bNj02BN/proavatar.png",
+        rating: 4.7,
+      },
+    ],
     images: [
       "/assets/event as bg.jpg",
       "/assets/event2.jpg",
@@ -67,6 +65,7 @@ const EventDetails = () => {
         dislikes: 0,
       },
     ],
+    visitors: [],
   });
   return (
     <>
