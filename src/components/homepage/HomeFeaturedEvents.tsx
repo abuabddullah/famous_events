@@ -11,6 +11,7 @@ export interface Event {
   ratings: any[];
   images: string[];
   comments: any[];
+  visitors: any[];
 }
 
 export const eventsData: Event[] = [
@@ -53,6 +54,7 @@ export const eventsData: Event[] = [
         dislikes: 0,
       },
     ],
+    visitors: [],
   },
   {
     title: "Tech Innovators Conference 2024",
@@ -94,6 +96,7 @@ export const eventsData: Event[] = [
         dislikes: 0,
       },
     ],
+    visitors: [],
   },
   {
     title: "Art & Creativity Workshop",
@@ -135,6 +138,7 @@ export const eventsData: Event[] = [
         dislikes: 2,
       },
     ],
+    visitors: [],
   },
   {
     title: "Creativity Workshop",
@@ -176,6 +180,7 @@ export const eventsData: Event[] = [
         dislikes: 2,
       },
     ],
+    visitors: [],
   },
   {
     title: "Summer Jazz",
@@ -216,6 +221,7 @@ export const eventsData: Event[] = [
         dislikes: 0,
       },
     ],
+    visitors: [],
   },
   {
     title: "Summer Jazz Festival",
@@ -256,6 +262,7 @@ export const eventsData: Event[] = [
         dislikes: 0,
       },
     ],
+    visitors: [],
   },
 ];
 
