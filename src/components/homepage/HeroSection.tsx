@@ -15,7 +15,7 @@ const HeroSection: React.FC = () => {
           Welcome to Our Special Event!
         </h1>
         <p className="text-xl mb-8">
-          Don't miss out on this event! Sign up today and enjoy exclusive
+          Don&apos;t miss out on this event! Sign up today and enjoy exclusive
           opportunities.
         </p>
         <Link

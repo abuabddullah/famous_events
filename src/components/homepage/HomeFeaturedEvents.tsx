@@ -299,7 +299,7 @@ const HomeFeaturedEvents = () => {
     };
 
     filterEvents();
-  }, [searchQuery, selectedCategory]);
+  }, [searchQuery, selectedCategory, events]);
 
   return (
     <section
