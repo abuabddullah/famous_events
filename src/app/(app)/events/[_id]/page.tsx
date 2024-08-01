@@ -132,7 +132,7 @@ const EventDetails = () => {
               <strong>Price:</strong> {event?.ticketPrice}
             </p>
             <p className="text-gray-400 mb-2">
-              <strong>Rating:</strong> {event?.rating} / 5
+              <strong>Rating:</strong> {event?.ratings[0].rating} / 5
             </p>
             <p className="text-gray-400 mb-2">
               <strong>Category:</strong> {event?.category}{" "}
