@@ -24,7 +24,7 @@ const AllUsers = () => {
     isLoading,
     usersData: { users = [] },
     error,
-  } = useSelector((store) => store.users);
+  } = useSelector((store: any) => store.users);
 
   const dispatch = useDispatch();
   const { toast } = useToast();

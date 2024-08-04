@@ -176,7 +176,9 @@ export const categories: string[] = [
 ];
 
 const HomeFeaturedEvents = () => {
-  const { isLoading, eventsData, error } = useSelector((store) => store.events);
+  const { isLoading, eventsData, error } = useSelector(
+    (store: any) => store.events
+  );
   const dispatch = useDispatch();
   const { toast } = useToast();
   useEffect(() => {

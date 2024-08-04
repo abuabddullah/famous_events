@@ -15,7 +15,7 @@ const AllEvents = () => {
     isLoading,
     eventsData: { events = [] },
     error,
-  } = useSelector((store) => store.events);
+  } = useSelector((store: any) => store.events);
   const dispatch = useDispatch();
   const { toast } = useToast();
   useEffect(() => {

@@ -18,7 +18,7 @@ const EventsPage = () => {
     isLoading,
     eventsData: { events = [] },
     error,
-  } = useSelector((store) => store.events);
+  } = useSelector((store: any) => store.events);
   const dispatch = useDispatch();
   const { toast } = useToast();
   const [filteredEvents, setFilteredEvents] = useState<Event[]>(events || []);
