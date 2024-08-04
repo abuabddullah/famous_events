@@ -15,7 +15,7 @@ const eventsSlice = createSlice({
     error: null,
   },
   reducers: {
-    clearEventsErrors: (state, action) => {
+    clearEventsErrors: (state) => {
       state.error = null;
     },
   },

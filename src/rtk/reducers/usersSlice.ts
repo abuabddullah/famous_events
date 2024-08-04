@@ -8,14 +8,14 @@ interface InitUserState {
 }
 
 const usersSlice = createSlice({
-  name: "events",
+  name: "users",
   initialState: <InitUserState>{
     usersData: [],
     isLoading: false,
     error: null,
   },
   reducers: {
-    clearUsersErrors: (state, action) => {
+    clearUsersErrors: (state) => {
       state.error = null;
     },
   },
