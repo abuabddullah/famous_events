@@ -14,6 +14,7 @@ declare module "next-auth" {
     isVerified?: boolean;
     username?: string;
     avatar?: string;
+    role?: string;
   }
 }
 

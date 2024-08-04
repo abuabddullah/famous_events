@@ -1,17 +1,18 @@
 import mongoose, { Document, Schema } from "mongoose";
+const { ObjectId } = mongoose.Schema.Types;
 
 export interface Event extends Document {
   title: string;
   description: string;
   date: any;
-  time: string;
+  time: any;
   location: string;
   category: string;
   ticketPrice: number;
   ratings: any[];
   images: string[];
   comments: any[];
-  visitors: any[];
+  attendees: any[];
 }
 
 // Updated User schema
@@ -35,6 +36,7 @@ const EventSchema: Schema<Event> = new mongoose.Schema({
   location: {
     type: String,
     required: [true, "location is required"],
+    enum: ["Tech City", "Art Town", "Music City"],
   },
   category: {
     type: String,
@@ -46,9 +48,14 @@ const EventSchema: Schema<Event> = new mongoose.Schema({
     required: [true, "ticket-Price Expiry is required"],
   },
   ratings: [],
-  images: [String],
+  images: [],
   comments: [],
-  visitors: [],
+  attendees: [
+    {
+      type: ObjectId,
+      ref: "User",
+    },
+  ],
 });
 
 const EventModel =

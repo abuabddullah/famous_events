@@ -14,7 +14,7 @@ import { Mail } from "lucide-react";
 
 const HomeCarousel = () => {
   return (
-    <section className="flex-grow flex flex-col items-center justify-center px-4 md:px-24 py-12 bg-gray-700 text-white">
+    <section className="flex-grow flex flex-col items-center justify-center px-4 md:px-24 py-12 bg-slate-700 text-white">
       <div className="text-center mb-8 md:mb-12">
         <h1 className="text-3xl md:text-5xl font-bold">
           Dive into the World of Wonderfull Feedback

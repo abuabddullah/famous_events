@@ -6,14 +6,26 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { User } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Button } from "../ui/button";
 import ActiveLink from "./ActiveLink";
 
 function Navbar() {
+  const pathName = usePathname();
+  const navLinks = [
+    {
+      title: "Home",
+      path: "/",
+    },
+    {
+      title: "Events",
+      path: "/events",
+    },
+  ];
+
   const { data: session } = useSession(); // এখানে type "session" ???
   // const user : User = session?.user; //
   const user: User = session?.user as User; // why এখানে asertion লাগবে ???
-  console.log(user);
 
   return (
     <nav className="p-4 md:p-6 shadow-md bg-gray-900 text-white">
@@ -22,12 +34,17 @@ function Navbar() {
           Famous Events
         </Link>
         <ul className="list-none flex gap-6 items-center">
-          <li>
-            <ActiveLink href="/">Home</ActiveLink>
-          </li>
-          <li>
-            <ActiveLink href="/events">Events</ActiveLink>
-          </li>
+          {navLinks?.map((navLink, index) => (
+            <Link
+              className={`${
+                navLink?.path == pathName && "text-red-600 underline"
+              } hover:text-red-300`}
+              key={index}
+              href={navLink?.path}
+            >
+              {navLink?.title}
+            </Link>
+          ))}
           <>
             <Command className="rounded-lg border shadow-md hidden md:block">
               <CommandInput placeholder="search..." />
@@ -37,7 +54,9 @@ function Navbar() {
         {session ? (
           <>
             <span className="mr-4 flex gap-4 items-center">
-              <ActiveLink href="/dashboard">Dashboard</ActiveLink>
+              <ActiveLink className="" href="/dashboard">
+                Dashboard
+              </ActiveLink>
 
               <Button
                 onClick={() => signOut()}

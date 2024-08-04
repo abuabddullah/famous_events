@@ -5,15 +5,22 @@ import { ReactNode } from "react";
 interface ActiveLinkProps {
   href: string;
   children: ReactNode;
+  className: string;
 }
 
-const ActiveLink: React.FC<ActiveLinkProps> = ({ href, children }) => {
+const ActiveLink: React.FC<ActiveLinkProps> = ({
+  href,
+  children,
+  className,
+}) => {
   const pathname = usePathname();
   return (
     <Link
       className={`${
-        pathname === href ? "underline font-bold" : "no-underline font-normal"
-      }`}
+        pathname === href
+          ? "text-red-600 underline bg-muted-foreground"
+          : "no-underline font-normal"
+      } hover:text-red-300 hover:bg-muted ${className}`}
       href={href}
     >
       {children}

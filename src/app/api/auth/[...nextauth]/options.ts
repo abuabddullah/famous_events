@@ -1,8 +1,8 @@
-import { NextAuthOptions } from "next-auth";
-import CredentialsProvider from "next-auth/providers/credentials";
-import bcrypt from "bcryptjs";
 import dbConnect from "@/lib/dbConnect.ts";
 import UserModel from "@/model/User.model";
+import bcrypt from "bcryptjs";
+import { NextAuthOptions } from "next-auth";
+import CredentialsProvider from "next-auth/providers/credentials";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -57,6 +57,7 @@ export const authOptions: NextAuthOptions = {
         token.isVerified = user.isVerified;
         token.username = user.username;
         token.avatar = user.avatar;
+        token.role = user.role;
       }
       return token;
     },
@@ -66,6 +67,7 @@ export const authOptions: NextAuthOptions = {
         session.user.isVerified = token.isVerified;
         session.user.username = token.username;
         session.user.avatar = token.avatar;
+        session.user.role = token.role;
       }
       return session;
     },

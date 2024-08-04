@@ -5,8 +5,6 @@ import {
   CarouselContent,
   CarouselItem,
 } from "@/components/ui/carousel";
-import { useParams } from "next/navigation";
-import { useState } from "react";
 
 import {
   Card,
@@ -23,52 +21,60 @@ import { Textarea } from "@/components/ui/textarea";
 import { AngryIcon, ArrowBigDownIcon, Clock, HeartIcon } from "lucide-react";
 import Image from "next/image";
 
-const EventDetails = () => {
-  const params = useParams();
-  const [event, setEvent] = useState({
-    title: "Innovators 2024",
-    description:
-      "Join us for the Tech Innovators Conference 2024, a premier event featuring keynote speakers from leading tech companies, panel discussions on emerging technologies, and networking opportunities with industry leaders.",
-    date: "2024-09-15",
-    time: "09:00 AM",
-    location: "Tech City Convention Center, 123 Innovation Drive, Tech City",
-    category: "Conferences",
-    ticketPrice: 299.0,
-    ratings: [
-      {
-        username: "JaneDoe42",
-        avatar: "https://i.ibb.co/bNj02BN/proavatar.png",
-        rating: 4.7,
-      },
-    ],
-    images: [
-      "/assets/event as bg.jpg",
-      "/assets/event2.jpg",
-      "/assets/abstract-blur-wedding-hall.jpg",
-    ],
-    comments: [
-      {
-        username: "JaneDoe42",
-        date: "2024-08-01",
-        commentText:
-          "Amazing lineup of speakers and very well-organized event!",
-        likes: 12,
-        dislikes: 1,
-      },
-      {
-        username: "TechieJoe",
-        date: "2024-08-02",
-        commentText:
-          "Looking forward to the sessions on AI and blockchain. Hope the venue is as good as last year!",
-        likes: 8,
-        dislikes: 0,
-      },
-    ],
-    visitors: [],
-  });
+const event = {
+  title: "Future Tech Summit 2024",
+  description:
+    "Explore the future of technology at the 2024 Summit featuring talks on AI, robotics, and quantum computing.",
+  date: "2024-11-15",
+  time: "08:30 AM",
+  location: "Tech Innovation Center, 789 Future Road, Techopolis",
+  category: "Workshops",
+  ticketPrice: 349,
+  ratings: [
+    {
+      username: "futuretechfanatic",
+      avatar: "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
+      rating: 4,
+    },
+    {
+      username: "techgeek2023",
+      avatar: "https://i.ibb.co/n8BKWG2/event2.jpg",
+      rating: 5,
+    },
+  ],
+  images: [
+    "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
+    "https://i.ibb.co/nbmvQhm/abstract-blur-wedding-hall.jpg",
+    "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
+  ],
+  comments: [
+    {
+      username: "futuretechfanatic",
+      avatar: "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
+      date: "2024-08-02",
+      commentText: "The lineup looks incredible! Can't wait to attend.",
+      likes: 12,
+      dislikes: 0,
+      replies: [
+        {
+          username: "quantum_enthusiast",
+          avatar: "https://i.ibb.co/n8BKWG2/event2.jpg",
+          date: "2024-08-03",
+          commentText:
+            "I'm particularly interested in the quantum computing sessions.",
+          likes: 8,
+          dislikes: 1,
+        },
+      ],
+    },
+  ],
+  attendees: [],
+};
+
+const EventDetails = ({ params }: { params: { _id: string } }) => {
   return (
     <>
-      <section className="flex-grow flex flex-col items-center justify-center px-4 md:px-24 py-12 bg-gray-700 text-white">
+      <section className="flex-grow flex flex-col items-center justify-center px-4 md:px-24 py-12 bg-slate-700 text-white">
         <div className="text-center mb-8 md:mb-12">
           <h1 className="text-3xl md:text-5xl font-bold">
             Checkout our Event in Depth ...
@@ -162,25 +168,53 @@ const EventDetails = () => {
         <div className="w-full my-8">
           {event?.comments?.map((cmnt, index) => (
             <>
-              <Card className="mb-2">
-                <CardHeader>
-                  <CardTitle>{cmnt?.username}</CardTitle>
-                  <CardDescription>{cmnt?.date}</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <p>{cmnt?.commentText}</p>
-                </CardContent>
-                <CardFooter>
-                  <p className="flex gap-2 me-8">
-                    <HeartIcon className="text-red-700 cursor-pointer" />
-                    {cmnt?.likes}
-                  </p>
-                  <p className="flex gap-2 me-8">
-                    <AngryIcon className="text-slate-700 cursor-pointer" />
-                    {cmnt?.dislikes}
-                  </p>
-                </CardFooter>
-              </Card>
+              <div>
+                <Card className="mb-2">
+                  <CardHeader>
+                    <CardTitle>{cmnt?.username}</CardTitle>
+                    <CardDescription>{cmnt?.date}</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p>{cmnt?.commentText}</p>
+                  </CardContent>
+                  <CardFooter>
+                    <p className="flex gap-2 me-8">
+                      <HeartIcon className="text-red-700 cursor-pointer" />
+                      {cmnt?.likes}
+                    </p>
+                    <p className="flex gap-2 me-8">
+                      <AngryIcon className="text-slate-700 cursor-pointer" />
+                      {cmnt?.dislikes}
+                    </p>
+                  </CardFooter>
+                </Card>
+                <>
+                  {cmnt?.replies.length &&
+                    cmnt?.replies?.map((reply, index) => (
+                      <>
+                        <Card className="mb-2 ms-10">
+                          <CardHeader>
+                            <CardTitle>{reply?.username}</CardTitle>
+                            <CardDescription>{reply?.date}</CardDescription>
+                          </CardHeader>
+                          <CardContent>
+                            <p>{reply?.commentText}</p>
+                          </CardContent>
+                          <CardFooter>
+                            <p className="flex gap-2 me-8">
+                              <HeartIcon className="text-red-700 cursor-pointer" />
+                              {reply?.likes}
+                            </p>
+                            <p className="flex gap-2 me-8">
+                              <AngryIcon className="text-slate-700 cursor-pointer" />
+                              {reply?.dislikes}
+                            </p>
+                          </CardFooter>
+                        </Card>
+                      </>
+                    ))}
+                </>
+              </div>
             </>
           ))}
         </div>

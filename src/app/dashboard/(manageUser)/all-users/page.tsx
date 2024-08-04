@@ -2,115 +2,47 @@
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { PenIcon, X } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useToast } from "@/components/ui/use-toast";
+import { fetchUsersAction } from "@/rtk/reducers/usersActions";
+import { clearUsersErrors } from "@/rtk/reducers/usersSlice";
+import { PenIcon, SaveIcon, Trash, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-const users = [
-  {
-    username: "asifaowadud",
-    avatar: "https://i.ibb.co/bNj02BN/proavatar.png",
-    role: "admin",
-    email: "asifaowadud@gmail.com",
-    password: "$2a$10$UKG/Mk5xJ1rv4IFCX91h9OwJ5zYP4W/6w3jhlxxYTI/4GEwTn27s6",
-    verifyCode: "579458",
-    verifyCodeExpiry: {
-      $date: "2024-07-31T17:56:11.780Z",
-    },
-    isVerified: true,
-    events: [
-      {
-        eventId: "sdfsdfsdfsdfsdf",
-        title: "Good Event",
-        date: "10/25/30",
-        time: "09:00 pm",
-      },
-    ],
-  },
-  {
-    username: "aowadud",
-    avatar: "https://i.ibb.co/bNj02BN/proavatar.png",
-    role: "admin",
-    email: "aowadud@gmail.com",
-    password: "$2a$10$UKG/Mk5xJ1rv4IFCX91h9OwJ5zYP4W/6w3jhlxxYTI/4GEwTn27s6",
-    verifyCode: "579458",
-    verifyCodeExpiry: {
-      $date: "2024-07-31T17:56:11.780Z",
-    },
-    isVerified: true,
-    events: [
-      {
-        eventId: "sdfsdfsdfsdfsdf",
-        title: "Good Event",
-        date: "10/25/30",
-        time: "09:00 pm",
-      },
-    ],
-  },
-  {
-    username: "asif",
-    avatar: "https://i.ibb.co/bNj02BN/proavatar.png",
-    role: "admin",
-    email: "asif@gmail.com",
-    password: "$2a$10$UKG/Mk5xJ1rv4IFCX91h9OwJ5zYP4W/6w3jhlxxYTI/4GEwTn27s6",
-    verifyCode: "579458",
-    verifyCodeExpiry: {
-      $date: "2024-07-31T17:56:11.780Z",
-    },
-    isVerified: true,
-    events: [
-      {
-        eventId: "sdfsdfsdfsdfsdf",
-        title: "Good Event",
-        date: "10/25/30",
-        time: "09:00 pm",
-      },
-    ],
-  },
-  {
-    username: "a.sif",
-    avatar: "https://i.ibb.co/bNj02BN/proavatar.png",
-    role: "admin",
-    email: "a.sif@gmail.com",
-    password: "$2a$10$UKG/Mk5xJ1rv4IFCX91h9OwJ5zYP4W/6w3jhlxxYTI/4GEwTn27s6",
-    verifyCode: "579458",
-    verifyCodeExpiry: {
-      $date: "2024-07-31T17:56:11.780Z",
-    },
-    isVerified: true,
-    events: [
-      {
-        eventId: "sdfsdfsdfsdfsdf",
-        title: "Good Event",
-        date: "10/25/30",
-        time: "09:00 pm",
-      },
-    ],
-  },
-  {
-    username: "a.owadud",
-    avatar: "https://i.ibb.co/bNj02BN/proavatar.png",
-    role: "admin",
-    email: "a.owadud@gmail.com",
-    password: "$2a$10$UKG/Mk5xJ1rv4IFCX91h9OwJ5zYP4W/6w3jhlxxYTI/4GEwTn27s6",
-    verifyCode: "579458",
-    verifyCodeExpiry: {
-      $date: "2024-07-31T17:56:11.780Z",
-    },
-    isVerified: true,
-    events: [
-      {
-        eventId: "sdfsdfsdfsdfsdf",
-        title: "Good Event",
-        date: "10/25/30",
-        time: "09:00 pm",
-      },
-    ],
-  },
-];
+// const users = [];
 
 const AllUsers = () => {
+  const [editMode, setEditMode] = useState(false);
+  const {
+    isLoading,
+    usersData: { users = [] },
+    error,
+  } = useSelector((store) => store.users);
+
+  const dispatch = useDispatch();
+  const { toast } = useToast();
+
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: "users Getting Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+      dispatch(clearUsersErrors());
+    }
+    dispatch(fetchUsersAction());
+  }, [dispatch, error, toast]);
   return (
     <>
-      <div className="rounded-sm border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
+      <div className="rounded-sm lg:border-none border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
         <small className="text-green-100 md:hidden">
           enable Desktop mode for full exp
         </small>
@@ -135,14 +67,14 @@ const AllUsers = () => {
                 Role
               </h5>
             </div>
-            <div className="py-2.5 text-center sm:block xl:p-5 border bg-slate-700 text-white md:col-span-2">
+            <div className="p-2.5 text-center sm:block xl:p-5 border bg-slate-700 text-white">
               <h5 className="text-sm font-medium uppercase xsm:text-base">
                 Actions
               </h5>
             </div>
           </div>
 
-          {users.map((user, key) => (
+          {users?.map((user, key) => (
             <div
               className={`grid grid-cols-3 sm:grid-cols-5 ${
                 key === users.length - 1
@@ -168,24 +100,89 @@ const AllUsers = () => {
               </div>
 
               <div className="flex items-center justify-center py-2.5 xl:p-5">
-                <p className="text-meta-3">${user?.role}</p>
+                {editMode ? (
+                  <div className="">
+                    <Select>
+                      <SelectTrigger
+                        id="role"
+                        className="items-start [&_[data-description]]:hidden"
+                      >
+                        <SelectValue placeholder={user?.role} />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {" "}
+                        <SelectItem
+                          disabled={user?.role == "user"}
+                          value="user"
+                        >
+                          <div className="flex items-start gap-3 text-muted-foreground">
+                            <div className="grid gap-0.5">
+                              <p>user</p>
+                            </div>
+                          </div>
+                        </SelectItem>
+                        <SelectItem
+                          disabled={user?.role == "admin"}
+                          value="admin"
+                        >
+                          <div className="flex items-start gap-3 text-muted-foreground">
+                            <div className="grid gap-0.5">
+                              <p>admin</p>
+                            </div>
+                          </div>
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                ) : (
+                  <p className="text-meta-3">{user?.role}</p>
+                )}
               </div>
+              <>
+                {editMode ? (
+                  <div className="flex gap-4">
+                    <div className="items-center justify-center py-2.5 sm:flex xl:p-5">
+                      <p className="text-meta-5">
+                        <Button className="bg-green-600 p-0 lg:p-4">
+                          <SaveIcon />
+                        </Button>
+                      </p>
+                    </div>
 
-              <div className="hidden items-center justify-center py-2.5 sm:flex xl:p-5">
-                <p className="text-meta-5">
-                  <Button className="bg-green-600">
-                    <PenIcon />
-                  </Button>
-                </p>
-              </div>
+                    <div className="items-center justify-center py-2.5 sm:flex xl:p-5">
+                      <p className="text-black dark:text-white">
+                        <Button
+                          onClick={() => setEditMode(false)}
+                          className="bg-red-600 p-0 lg:p-4"
+                        >
+                          <X />
+                        </Button>
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex gap-4">
+                    <div className="items-center justify-center py-2.5 sm:flex xl:p-5">
+                      <p className="text-meta-5">
+                        <Button
+                          onClick={() => setEditMode(true)}
+                          className="bg-green-600 p-0 lg:p-4"
+                        >
+                          <PenIcon />
+                        </Button>
+                      </p>
+                    </div>
 
-              <div className="items-center justify-center py-2.5 sm:flex xl:p-5">
-                <p className="text-black dark:text-white">
-                  <Button className="bg-red-600">
-                    <X />
-                  </Button>
-                </p>
-              </div>
+                    <div className="items-center justify-center py-2.5 sm:flex xl:p-5">
+                      <p className="text-black dark:text-white">
+                        <Button className="bg-red-600 p-0 lg:p-4">
+                          <Trash />
+                        </Button>
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </>
             </div>
           ))}
         </div>

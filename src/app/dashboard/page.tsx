@@ -1,13 +1,5 @@
-"use client";
-
-import ProfileAtDashIndex from "@/components/dashboard/ProfileAtDashIndex";
-
 const DashboardIndexPage = () => {
-  return (
-    <>
-      <ProfileAtDashIndex />
-    </>
-  );
+  return <section>DashboardIndexPage</section>;
 };
 
 export default DashboardIndexPage;

@@ -1,9 +1,34 @@
 "use client";
 
-import { eventsData } from "@/components/homepage/HomeFeaturedEvents";
+import { Button } from "@/components/ui/button";
+import { useToast } from "@/components/ui/use-toast";
+import { fetchEventsAction } from "@/rtk/reducers/eventsAction";
+import { clearEventsErrors } from "@/rtk/reducers/eventsSlice";
+import { PenIcon, Trash } from "lucide-react";
 import Image from "next/image";
+import Link from "next/link";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const AllEvents = () => {
+  const {
+    isLoading,
+    eventsData: { events = [] },
+    error,
+  } = useSelector((store) => store.events);
+  const dispatch = useDispatch();
+  const { toast } = useToast();
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: "Events Getting Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+      dispatch(clearEventsErrors());
+    }
+    dispatch(fetchEventsAction());
+  }, [dispatch, error, toast]);
   return (
     <>
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -23,7 +48,7 @@ const AllEvents = () => {
           <div className="col-span-1 flex items-center">
             <p className="font-medium">Price</p>
           </div>
-          <div className="col-span-1 flex items-center">
+          <div className="col-span-1 hidden lg:flex items-center">
             <p className="font-medium">Location</p>
           </div>
           <div className="col-span-1 flex items-center">
@@ -31,7 +56,7 @@ const AllEvents = () => {
           </div>
         </div>
 
-        {eventsData.map((event, key) => (
+        {events?.map((event, key) => (
           <div
             className="grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5"
             key={key}
@@ -61,15 +86,20 @@ const AllEvents = () => {
                 ${event?.ticketPrice}
               </p>
             </div>
-            <div className="col-span-1 flex items-center">
+            <div className="hidden col-span-1 lg:flex items-center">
               <p className="text-sm text-black dark:text-white">
                 {event?.location}
               </p>
             </div>
-            <div className="col-span-1 flex items-center">
-              <p className="text-sm text-meta-3">
-                on ${event?.date} at {event?.time}
-              </p>
+            <div className="col-span-1 flex items-center gap-2">
+              <Link href="/dashboard/edit-events/${_id}">
+                <Button className="p-2 lg:p-4 bg-green-600 hover:text-white">
+                  <PenIcon />
+                </Button>
+              </Link>
+              <Button className="p-2 lg:p-4 bg-red-600 hover:text-white">
+                <Trash />
+              </Button>
             </div>
           </div>
         ))}

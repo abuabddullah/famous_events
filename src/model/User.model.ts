@@ -1,4 +1,5 @@
 import mongoose, { Document, Schema } from "mongoose";
+const { ObjectId } = mongoose.Schema.Types;
 
 export interface User extends Document {
   username: string;
@@ -9,7 +10,7 @@ export interface User extends Document {
   verifyCode: string;
   verifyCodeExpiry: Date;
   isVerified: boolean;
-  events: any[];
+  bookedEvents: any[];
 }
 
 // Updated User schema
@@ -19,6 +20,7 @@ const UserSchema: Schema<User> = new mongoose.Schema({
     required: [true, "Username is required"],
     trim: true,
     unique: true,
+    lowercase: true,
   },
   avatar: {
     type: String,
@@ -53,7 +55,12 @@ const UserSchema: Schema<User> = new mongoose.Schema({
     type: Boolean,
     default: true,
   },
-  events: [],
+  bookedEvents: [
+    {
+      type: ObjectId,
+      ref: "Event",
+    },
+  ],
 });
 
 const UserModel =

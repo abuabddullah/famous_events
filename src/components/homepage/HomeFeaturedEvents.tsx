@@ -1,6 +1,11 @@
+import { Event } from "@/model/Event.model";
+import { fetchEventsAction } from "@/rtk/reducers/eventsAction";
+import { clearEventsErrors } from "@/rtk/reducers/eventsSlice";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useToast } from "../ui/use-toast";
 
-export interface Event {
+/* export interface Event {
   title: string;
   description: string;
   date: string;
@@ -11,260 +16,157 @@ export interface Event {
   ratings: any[];
   images: string[];
   comments: any[];
-  visitors: any[];
+  attendees: any[];
 }
 
 export const eventsData: Event[] = [
   {
-    title: "Innovators 2024",
+    title: "Tech Expo 2024",
     description:
-      "Join us for the Tech Innovators Conference 2024, a premier event featuring keynote speakers from leading tech companies, panel discussions on emerging technologies, and networking opportunities with industry leaders.",
-    date: "2024-09-15",
-    time: "09:00 AM",
-    location: "Tech City Convention Center, 123 Innovation Drive, Tech City",
-    category: "Conferences",
-    ticketPrice: 299.0,
-    ratings: [
-      {
-        username: "JaneDoe42",
-        avatar: "https://i.ibb.co/bNj02BN/proavatar.png",
-        rating: 4.7,
-      },
-    ],
-    images: [
-      "/assets/event as bg.jpg",
-      "/assets/event2.jpg",
-      "/assets/abstract-blur-wedding-hall.jpg",
-    ],
-    comments: [
-      {
-        username: "JaneDoe42",
-        date: "2024-08-01",
-        commentText:
-          "Amazing lineup of speakers and very well-organized event!",
-        likes: 12,
-        dislikes: 1,
-      },
-      {
-        username: "TechieJoe",
-        date: "2024-08-02",
-        commentText:
-          "Looking forward to the sessions on AI and blockchain. Hope the venue is as good as last year!",
-        likes: 8,
-        dislikes: 0,
-      },
-    ],
-    visitors: [],
-  },
-  {
-    title: "Tech Innovators Conference 2024",
-    description:
-      "Join us for the Tech Innovators Conference 2024, a premier event featuring keynote speakers from leading tech companies, panel discussions on emerging technologies, and networking opportunities with industry leaders.",
-    date: "2024-09-15",
-    time: "09:00 AM",
-    location: "Tech City Convention Center, 123 Innovation Drive, Tech City",
-    category: "Conferences",
-    ticketPrice: 299.0,
-
-    ratings: [
-      {
-        username: "Doe42",
-        avatar: "https://i.ibb.co/bNj02BN/proavatar.png",
-        rating: 4.7,
-      },
-    ],
-    images: [
-      "/assets/event as bg.jpg",
-      "/assets/event2.jpg",
-      "/assets/abstract-blur-wedding-hall.jpg",
-    ],
-    comments: [
-      {
-        username: "JaneDoe42",
-        date: "2024-08-01",
-        commentText:
-          "Amazing lineup of speakers and very well-organized event!",
-        likes: 12,
-        dislikes: 1,
-      },
-      {
-        username: "TechieJoe",
-        date: "2024-08-02",
-        commentText:
-          "Looking forward to the sessions on AI and blockchain. Hope the venue is as good as last year!",
-        likes: 8,
-        dislikes: 0,
-      },
-    ],
-    visitors: [],
-  },
-  {
-    title: "Art & Creativity Workshop",
-    description:
-      "A hands-on workshop aimed at artists of all levels. Explore new techniques in painting, sculpture, and digital art. All materials are provided, and participants will have the opportunity to showcase their work in a final exhibit.",
-    date: "2024-10-05",
+      "Join us for the Tech Expo 2024 showcasing the latest in tech innovations and startup pitches.",
+    date: "2024-10-20",
     time: "10:00 AM",
-    location: "Creative Arts Studio, 456 Art Lane, Art Town",
-    category: "Workshops",
-    ticketPrice: 150.0,
-
+    location: "Innovation Hub, 456 Tech Avenue, Tech City",
+    category: "Conferences",
+    ticketPrice: 199,
     ratings: [
       {
-        username: "JaneDoe42",
-        avatar: "https://i.ibb.co/bNj02BN/proavatar.png",
-        rating: 4.7,
+        username: "techlover2024",
+        avatar: "https://i.ibb.co/n8BKWG2/event2.jpg",
+        rating: 5,
+      },
+      {
+        username: "codingninja",
+        avatar: "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
+        rating: 4,
       },
     ],
     images: [
-      "/assets/event2.jpg",
-      "/assets/abstract-blur-wedding-hall.jpg",
-      "/assets/event as bg.jpg",
+      "https://i.ibb.co/n8BKWG2/event2.jpg",
+      "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
+      "https://i.ibb.co/nbmvQhm/abstract-blur-wedding-hall.jpg",
     ],
     comments: [
       {
-        username: "ArtLover88",
-        date: "2024-07-30",
-        commentText:
-          "Fantastic workshop with great instructors! Learned so much!",
-        likes: 20,
-        dislikes: 0,
-      },
-      {
-        username: "CreativeSoul",
-        date: "2024-08-03",
-        commentText:
-          "Excited for this event. Hope there’s a focus on digital art as well.",
-        likes: 5,
-        dislikes: 2,
-      },
-    ],
-    visitors: [],
-  },
-  {
-    title: "Creativity Workshop",
-    description:
-      "A hands-on workshop aimed at artists of all levels. Explore new techniques in painting, sculpture, and digital art. All materials are provided, and participants will have the opportunity to showcase their work in a final exhibit.",
-    date: "2024-10-05",
-    time: "10:00 AM",
-    location: "Creative Arts Studio, 456 Art Lane, Art Town",
-    category: "Workshops",
-    ticketPrice: 150.0,
-
-    ratings: [
-      {
-        username: "JaneDoe42",
-        avatar: "https://i.ibb.co/bNj02BN/proavatar.png",
-        rating: 4.7,
-      },
-    ],
-    images: [
-      "/assets/event2.jpg",
-      "/assets/abstract-blur-wedding-hall.jpg",
-      "/assets/event as bg.jpg",
-    ],
-    comments: [
-      {
-        username: "ArtLover88",
-        date: "2024-07-30",
-        commentText:
-          "Fantastic workshop with great instructors! Learned so much!",
-        likes: 20,
-        dislikes: 0,
-      },
-      {
-        username: "CreativeSoul",
-        date: "2024-08-03",
-        commentText:
-          "Excited for this event. Hope there’s a focus on digital art as well.",
-        likes: 5,
-        dislikes: 2,
-      },
-    ],
-    visitors: [],
-  },
-  {
-    title: "Summer Jazz",
-    description:
-      "Enjoy a day of smooth jazz with performances from renowned artists, food stalls, and a lively atmosphere. Perfect for jazz enthusiasts and casual listeners alike.",
-    date: "2024-08-20",
-    time: "12:00 PM",
-    location: "Central Park, 789 Festival Road, Music City",
-    category: "Concerts",
-    ticketPrice: 75.0,
-
-    ratings: [
-      {
-        username: "JaneDoe42",
-        avatar: "https://i.ibb.co/bNj02BN/proavatar.png",
-        rating: 4.7,
-      },
-    ],
-    images: [
-      "/assets/abstract-blur-wedding-hall.jpg",
-      "/assets/event2.jpg",
-      "/assets/event as bg.jpg",
-    ],
-    comments: [
-      {
-        username: "JazzFan123",
-        date: "2024-07-29",
-        commentText:
-          "Great lineup this year! Can’t wait to see my favorite bands live.",
-        likes: 15,
-        dislikes: 1,
-      },
-      {
-        username: "MusicLover",
+        username: "techlover2024",
+        avatar: "https://i.ibb.co/n8BKWG2/event2.jpg",
         date: "2024-08-01",
-        commentText: "Awesome event last year. Hope this year is even better!",
-        likes: 10,
+        commentText: "Exciting event! Can't wait to see the startups.",
+        likes: 5,
         dislikes: 0,
+        replies: [
+          {
+            username: "startup_enthusiast",
+            avatar: "https://i.ibb.co/nbmvQhm/abstract-blur-wedding-hall.jpg",
+            date: "2024-08-02",
+            commentText: "Same here! Hoping to discover some hidden gems.",
+            likes: 3,
+            dislikes: 0,
+          },
+        ],
       },
     ],
-    visitors: [],
+    attendees: [],
   },
   {
-    title: "Summer Jazz Festival",
+    title: "Future Tech Summit 2024",
     description:
-      "Enjoy a day of smooth jazz with performances from renowned artists, food stalls, and a lively atmosphere. Perfect for jazz enthusiasts and casual listeners alike.",
-    date: "2024-08-20",
-    time: "12:00 PM",
-    location: "Central Park, 789 Festival Road, Music City",
-    category: "Concerts",
-    ticketPrice: 75.0,
-
+      "Explore the future of technology at the 2024 Summit featuring talks on AI, robotics, and quantum computing.",
+    date: "2024-11-15",
+    time: "08:30 AM",
+    location: "Tech Innovation Center, 789 Future Road, Techopolis",
+    category: "Workshops",
+    ticketPrice: 349,
     ratings: [
       {
-        username: "JaneDoe42",
-        avatar: "https://i.ibb.co/bNj02BN/proavatar.png",
-        rating: 4.7,
+        username: "futuretechfanatic",
+        avatar: "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
+        rating: 4,
+      },
+      {
+        username: "techgeek2023",
+        avatar: "https://i.ibb.co/n8BKWG2/event2.jpg",
+        rating: 5,
       },
     ],
     images: [
-      "/assets/abstract-blur-wedding-hall.jpg",
-      "/assets/event2.jpg",
-      "/assets/event as bg.jpg",
+      "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
+      "https://i.ibb.co/nbmvQhm/abstract-blur-wedding-hall.jpg",
+      "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
     ],
     comments: [
       {
-        username: "JazzFan123",
-        date: "2024-07-29",
-        commentText:
-          "Great lineup this year! Can’t wait to see my favorite bands live.",
-        likes: 15,
-        dislikes: 1,
-      },
-      {
-        username: "MusicLover",
-        date: "2024-08-01",
-        commentText: "Awesome event last year. Hope this year is even better!",
-        likes: 10,
+        username: "futuretechfanatic",
+        avatar: "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
+        date: "2024-08-02",
+        commentText: "The lineup looks incredible! Can't wait to attend.",
+        likes: 12,
         dislikes: 0,
+        replies: [
+          {
+            username: "quantum_enthusiast",
+            avatar: "https://i.ibb.co/n8BKWG2/event2.jpg",
+            date: "2024-08-03",
+            commentText:
+              "I'm particularly interested in the quantum computing sessions.",
+            likes: 8,
+            dislikes: 1,
+          },
+        ],
       },
     ],
-    visitors: [],
+    attendees: [],
   },
-];
+  {
+    title: "AI & Robotics Symposium 2024",
+    description:
+      "Join us for a deep dive into AI and robotics technologies at our annual symposium.",
+    date: "2024-09-30",
+    time: "11:00 AM",
+    location: "RoboTech Center, 101 Robotics Avenue, Innovate City",
+    category: "Concerts",
+    ticketPrice: 249,
+    ratings: [
+      {
+        username: "aitechenthusiast",
+        avatar: "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
+        rating: 4,
+      },
+      {
+        username: "robo2024",
+        avatar: "https://i.ibb.co/nbmvQhm/abstract-blur-wedding-hall.jpg",
+        rating: 4,
+      },
+    ],
+    images: [
+      "https://i.ibb.co/n8BKWG2/event2.jpg",
+      "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
+      "https://i.ibb.co/nbmvQhm/abstract-blur-wedding-hall.jpg",
+    ],
+    comments: [
+      {
+        username: "aitechenthusiast",
+        avatar: "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
+        date: "2024-08-01",
+        commentText:
+          "Exciting lineup of speakers! Looking forward to the discussions.",
+        likes: 6,
+        dislikes: 0,
+        replies: [
+          {
+            username: "robotics_researcher",
+            avatar: "https://i.ibb.co/nbmvQhm/abstract-blur-wedding-hall.jpg",
+            date: "2024-08-02",
+            commentText: "Hope to see advancements in humanoid robotics.",
+            likes: 2,
+            dislikes: 0,
+          },
+        ],
+      },
+    ],
+    attendees: [],
+  },
+]; */
 
 export const categories: string[] = [
   "All",
@@ -274,14 +176,29 @@ export const categories: string[] = [
 ];
 
 const HomeFeaturedEvents = () => {
-  const [events, setEvents] = useState<Event[]>(eventsData);
-  const [filteredEvents, setFilteredEvents] = useState<Event[]>(eventsData);
+  const { isLoading, eventsData, error } = useSelector((store) => store.events);
+  const dispatch = useDispatch();
+  const { toast } = useToast();
+  useEffect(() => {
+    if (error) {
+      toast({
+        title: "Events Getting Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+      dispatch(clearEventsErrors());
+    }
+    dispatch(fetchEventsAction());
+  }, [dispatch, error, toast]);
+  const [filteredEvents, setFilteredEvents] = useState<Event[]>(
+    eventsData?.events || []
+  );
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
   useEffect(() => {
     const filterEvents = () => {
-      let result = events;
+      let result = eventsData.events;
 
       if (searchQuery) {
         result = result.filter(
@@ -299,7 +216,7 @@ const HomeFeaturedEvents = () => {
     };
 
     filterEvents();
-  }, [searchQuery, selectedCategory, events]);
+  }, [searchQuery, selectedCategory, eventsData]);
 
   return (
     <section
@@ -344,7 +261,7 @@ const HomeFeaturedEvents = () => {
         </div>
 
         <div className="space-y-6 lg:h-[78vh] overflow-hidden overflow-y-auto no-scrollbar">
-          {filteredEvents.length > 0 ? (
+          {filteredEvents?.length > 0 ? (
             filteredEvents.map((event, index) => (
               <div
                 key={index}
