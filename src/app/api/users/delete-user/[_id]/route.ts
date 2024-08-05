@@ -1,13 +1,13 @@
 import dbConnect from "@/lib/dbConnect.ts";
 import UserModel from "@/model/User.model";
 
-export const GET = async (
+export const DELETE = async (
   request: Request,
-  { params }: { params: { userName: string } }
+  { params }: { params: { _id: string } }
 ) => {
   await dbConnect();
-
-  /* const session = await getServerSession(authOptions);
+  /* 
+  const session = await getServerSession(authOptions);
   const _user = session?.user;
 
   if (!session || !_user) {
@@ -26,20 +26,21 @@ export const GET = async (
   } */
 
   try {
-    const users = await UserModel.find();
+    const response = await UserModel.findByIdAndDelete(params?._id);
+    console.log(response);
     return Response.json(
       {
         success: true,
-        users,
+        message: "User is deleted",
       },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error checking username:", error);
+    console.error("Error deleting user:", error);
     return Response.json(
       {
         success: false,
-        message: "Error getting username",
+        message: "Error deleting user role",
       },
       { status: 500 }
     );

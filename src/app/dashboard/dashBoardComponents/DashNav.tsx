@@ -1,11 +1,19 @@
 import ActiveLink from "@/components/shared/ActiveLink";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
-import { LineChart, Package, Plus, User, Users } from "lucide-react";
+import { Home, LineChart, Package, Plus, User, Users } from "lucide-react";
 import DashBoaradIcon from "./DashBoaradIcon";
+import Link from "next/link";
 const DashNav = () => {
   return (
     <>
+      <Link
+        href="/"
+        className="md:hidden flex items-center gap-2 font-semibold"
+      >
+        <Home className="h-6 w-6" />
+        <span className="">Back To Home</span>
+      </Link>
       <ActiveLink
         href="/dashboard"
         className="flex items-center gap-3 rounded-lg px-3 py-2 text-muted-foreground transition-all hover:text-primary"

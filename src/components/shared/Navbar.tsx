@@ -30,10 +30,13 @@ function Navbar() {
   return (
     <nav className="p-4 md:p-6 shadow-md bg-gray-900 text-white">
       <div className="container mx-auto flex flex-col md:flex-row justify-between items-center">
-        <Link href="/" className="text-xl font-bold mb-4 md:mb-0">
+        <Link
+          href="/"
+          className="hidden md:block text-xl font-bold mb-4 md:mb-0"
+        >
           Famous Events
         </Link>
-        <ul className="list-none flex gap-6 items-center">
+        <div className="list-none flex gap-6 items-center">
           {navLinks?.map((navLink, index) => (
             <Link
               className={`${
@@ -45,22 +48,19 @@ function Navbar() {
               {navLink?.title}
             </Link>
           ))}
-          <>
-            <Command className="rounded-lg border shadow-md hidden md:block">
-              <CommandInput placeholder="search..." />
-            </Command>
-          </>
-        </ul>
-        {session ? (
-          <>
-            <span className="mr-4 flex gap-4 items-center">
+
+          <Command className="rounded-lg border shadow-md hidden md:block">
+            <CommandInput placeholder="search..." />
+          </Command>
+          {session ? (
+            <>
               <ActiveLink className="" href="/dashboard">
                 Dashboard
               </ActiveLink>
 
               <Button
                 onClick={() => signOut()}
-                className="w-full md:w-auto bg-slate-100 text-black"
+                className="w-full md:w-auto bg-slate-100 text-black px-0 py-"
                 variant="outline"
               >
                 Logout
@@ -70,18 +70,18 @@ function Navbar() {
                 <AvatarImage src={user?.avatar} alt="avatar" />
                 <AvatarFallback>CN</AvatarFallback>
               </Avatar>
-            </span>
-          </>
-        ) : (
-          <Link href="/sign-in">
-            <Button
-              className="w-full md:w-auto bg-slate-100 text-black"
-              variant={"outline"}
-            >
-              Login
-            </Button>
-          </Link>
-        )}
+            </>
+          ) : (
+            <Link href="/sign-in">
+              <Button
+                className="w-full md:w-auto bg-slate-100 text-black px-0 py-"
+                variant={"outline"}
+              >
+                Login
+              </Button>
+            </Link>
+          )}
+        </div>
       </div>
     </nav>
   );

@@ -43,12 +43,9 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
               </Button>
             </div>
             <div className="flex-1">
-              {/* <DashNavPC/> */}
-
               <nav className="grid items-start px-2 text-sm font-medium lg:px-4">
                 <DashNavPC />
               </nav>
-              {/* <DashNavPC/> */}
             </div>
             <div className="mt-auto p-4">
               <Card x-chunk="dashboard-02-chunk-0">

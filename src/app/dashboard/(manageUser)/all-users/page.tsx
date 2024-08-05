@@ -12,6 +12,8 @@ import {
 import { useToast } from "@/components/ui/use-toast";
 import { fetchUsersAction } from "@/rtk/reducers/usersActions";
 import { clearUsersErrors } from "@/rtk/reducers/usersSlice";
+import { ApiResponseType } from "@/types/ApiResponseTypes";
+import axios, { AxiosError } from "axios";
 import { PenIcon, SaveIcon, Trash, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 const AllUsers = () => {
   const [editMode, setEditMode] = useState(false);
+  const [role, setRole] = useState("");
   const {
     isLoading,
     usersData: { users = [] },
@@ -40,6 +43,79 @@ const AllUsers = () => {
     }
     dispatch(fetchUsersAction());
   }, [dispatch, error, toast]);
+
+  const handleEditUserRole = async (_id: string) => {
+    const data = {
+      role,
+    };
+    // setIsSubmitting(true);
+    try {
+      // for submitting  user role
+      const response = await axios.put<ApiResponseType>(
+        `/api/users/edit-user/${_id}`,
+        data
+      );
+
+      toast({
+        title: "Success",
+        description: response.data.message,
+      });
+      dispatch(fetchUsersAction());
+    } catch (error) {
+      // if any error submitting form
+      console.error("Error during edit-user:", error);
+
+      const axiosError = error as AxiosError<ApiResponseType>; // ??? returns axiosError-object= {res,req,message}
+
+      // Default error message
+      let errorMessage = axiosError.response?.data.message;
+      ("There was a problem with your edit-user. Please try again."); // ???
+
+      toast({
+        title: "User Editing Failed",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    } finally {
+      // setIsSubmitting(false);
+      setEditMode(false);
+    }
+  };
+
+  const handleDeleteUser = async (_id: string) => {
+    console.log(_id);
+    try {
+      // for submitting  user role
+      const response = await axios.delete<ApiResponseType>(
+        `/api/users/delete-user/${_id}`
+      );
+
+      toast({
+        title: "Success",
+        description: response.data.message,
+      });
+      dispatch(fetchUsersAction());
+    } catch (error) {
+      // if any error submitting form
+      console.error("Error during edit-user:", error);
+
+      const axiosError = error as AxiosError<ApiResponseType>; // ??? returns axiosError-object= {res,req,message}
+
+      // Default error message
+      let errorMessage = axiosError.response?.data.message;
+      ("There was a problem with your edit-user. Please try again."); // ???
+
+      toast({
+        title: "User deleting Failed",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    } finally {
+      // setIsSubmitting(false);
+      setEditMode(false);
+    }
+  };
+
   return (
     <>
       <div className="rounded-sm lg:border-none border border-stroke bg-white px-5 pb-2.5 pt-6 shadow-default dark:border-strokedark dark:bg-boxdark sm:px-7.5 xl:pb-1">
@@ -51,7 +127,7 @@ const AllUsers = () => {
         </h4>
 
         <div className="flex flex-col">
-          <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 sm:grid-cols-5">
+          <div className="grid grid-cols-3 rounded-sm bg-gray-2 dark:bg-meta-4 ">
             <div className="py-2.5 xl:p-5">
               <h5 className="text-sm font-medium uppercase xsm:text-base">
                 User
@@ -76,7 +152,7 @@ const AllUsers = () => {
 
           {users?.map((user, key) => (
             <div
-              className={`grid grid-cols-3 sm:grid-cols-5 ${
+              className={`grid grid-cols-3  ${
                 key === users.length - 1
                   ? ""
                   : "border-b border-stroke dark:border-strokedark"
@@ -102,7 +178,7 @@ const AllUsers = () => {
               <div className="flex items-center justify-center py-2.5 xl:p-5">
                 {editMode ? (
                   <div className="">
-                    <Select>
+                    <Select onValueChange={(e) => setRole(e)}>
                       <SelectTrigger
                         id="role"
                         className="items-start [&_[data-description]]:hidden"
@@ -143,7 +219,10 @@ const AllUsers = () => {
                   <div className="flex gap-4">
                     <div className="items-center justify-center py-2.5 sm:flex xl:p-5">
                       <p className="text-meta-5">
-                        <Button className="bg-green-600 p-0 lg:p-4">
+                        <Button
+                          onClick={() => handleEditUserRole(user?._id)}
+                          className="bg-green-600 p-0 lg:p-4"
+                        >
                           <SaveIcon />
                         </Button>
                       </p>
@@ -175,7 +254,10 @@ const AllUsers = () => {
 
                     <div className="items-center justify-center py-2.5 sm:flex xl:p-5">
                       <p className="text-black dark:text-white">
-                        <Button className="bg-red-600 p-0 lg:p-4">
+                        <Button
+                          onClick={() => handleDeleteUser(user?._id)}
+                          className="bg-red-600 p-0 lg:p-4"
+                        >
                           <Trash />
                         </Button>
                       </p>

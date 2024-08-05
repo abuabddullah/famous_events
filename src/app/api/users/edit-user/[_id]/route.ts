@@ -1,13 +1,13 @@
 import dbConnect from "@/lib/dbConnect.ts";
 import UserModel from "@/model/User.model";
 
-export const GET = async (
+export const PUT = async (
   request: Request,
-  { params }: { params: { userName: string } }
+  { params }: { params: { _id: string } }
 ) => {
   await dbConnect();
-
-  /* const session = await getServerSession(authOptions);
+  /* 
+  const session = await getServerSession(authOptions);
   const _user = session?.user;
 
   if (!session || !_user) {
@@ -25,21 +25,22 @@ export const GET = async (
     );
   } */
 
+  const role = await request.json();
   try {
-    const users = await UserModel.find();
+    const updatedUser = await UserModel.findByIdAndUpdate(params?._id, role);
     return Response.json(
       {
         success: true,
-        users,
+        message: "Username is edited",
       },
       { status: 200 }
     );
   } catch (error) {
-    console.error("Error checking username:", error);
+    console.error("Error editing user role:", error);
     return Response.json(
       {
         success: false,
-        message: "Error getting username",
+        message: "Error editing user role",
       },
       { status: 500 }
     );

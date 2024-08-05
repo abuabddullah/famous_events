@@ -52,7 +52,7 @@ const AllEvents = () => {
             <p className="font-medium">Location</p>
           </div>
           <div className="col-span-1 flex items-center">
-            <p className="font-medium">Time</p>
+            <p className="font-medium">Actions</p>
           </div>
         </div>
 
@@ -61,7 +61,7 @@ const AllEvents = () => {
             className="grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5"
             key={key}
           >
-            <div className="col-span-3 flex items-center">
+            <div className="col-span-3 flex items-center lg:p-4 py-2">
               <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
                 <div className="h-12.5 w-15 rounded-md">
                   <Image
@@ -76,22 +76,22 @@ const AllEvents = () => {
                 </p>
               </div>
             </div>
-            <div className="col-span-2 hidden items-center sm:flex">
+            <div className="col-span-2 hidden items-center sm:flex lg:p-4 py-2">
               <p className="text-sm text-black dark:text-white">
                 {event?.category}
               </p>
             </div>
-            <div className="col-span-1 flex items-center">
+            <div className="col-span-1 flex items-center lg:p-4 py-2">
               <p className="text-sm text-black dark:text-white">
                 ${event?.ticketPrice}
               </p>
             </div>
-            <div className="hidden col-span-1 lg:flex items-center">
+            <div className="hidden col-span-1 lg:flex items-center lg:p-4 py-2">
               <p className="text-sm text-black dark:text-white">
                 {event?.location}
               </p>
             </div>
-            <div className="col-span-1 flex items-center gap-2">
+            <div className="col-span-1 flex items-center gap-2 lg:p-4 py-2">
               <Link href="/dashboard/edit-events/${_id}">
                 <Button className="p-2 lg:p-4 bg-green-600 hover:text-white">
                   <PenIcon />
