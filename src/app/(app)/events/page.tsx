@@ -147,7 +147,7 @@ const EventsPage = () => {
                 <p className="text-gray-500 mb-2">{event?.location}</p>
                 <p className="text-gray-500 mb-2">
                   {/* // এখানে ratings[] কে .reduce() method দিয়ে avg rating বের করে এনে কাজ করতে হবে */}
-                  Rating: {event?.ratings[0].rating} / 5
+                  Rating: {event?.ratings[0]?.rating || 0} / 5
                 </p>
                 <Link href={`events/_id`}>
                   <Button>See Details ...</Button>

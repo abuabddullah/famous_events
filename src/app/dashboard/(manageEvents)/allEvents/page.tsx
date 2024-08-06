@@ -4,6 +4,8 @@ import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
 import { fetchEventsAction } from "@/rtk/reducers/eventsAction";
 import { clearEventsErrors } from "@/rtk/reducers/eventsSlice";
+import { ApiResponseType } from "@/types/ApiResponseTypes";
+import axios, { AxiosError } from "axios";
 import { PenIcon, Trash } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -29,6 +31,38 @@ const AllEvents = () => {
     }
     dispatch(fetchEventsAction());
   }, [dispatch, error, toast]);
+
+  const handleDeleteEvent = async (_id: string) => {
+    console.log(_id);
+    try {
+      const response = await axios.delete<ApiResponseType>(
+        `/api/events/delete-event/${_id}`
+      );
+
+      toast({
+        title: "Success",
+        description: response.data.message,
+      });
+      dispatch(fetchEventsAction());
+    } catch (error) {
+      // if any error submitting form
+      console.error("Error during edit-event:", error);
+
+      const axiosError = error as AxiosError<ApiResponseType>; // ??? returns axiosError-object= {res,req,message}
+
+      // Default error message
+      let errorMessage = axiosError.response?.data.message;
+      ("There was a problem with your edit-event. Please try again."); // ???
+
+      toast({
+        title: "event deleting Failed",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    } finally {
+      // setIsSubmitting(false);
+    }
+  };
   return (
     <>
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
@@ -97,7 +131,10 @@ const AllEvents = () => {
                   <PenIcon />
                 </Button>
               </Link>
-              <Button className="p-2 lg:p-4 bg-red-600 hover:text-white">
+              <Button
+                onClick={() => handleDeleteEvent(event?._id)}
+                className="p-2 lg:p-4 bg-red-600 hover:text-white"
+              >
                 <Trash />
               </Button>
             </div>

@@ -67,7 +67,7 @@ const EventDetails = ({ params }: { params: { _id: string } }) => {
 
   return (
     <>
-      <div className="w-full lg:w-1/2">
+      <div className="w-full lg:w-2/3">
         <form className="grid w-full items-start gap-6">
           <fieldset className="grid gap-6 rounded-lg border p-4">
             <legend className="-ml-1 px-1 text-sm font-medium">

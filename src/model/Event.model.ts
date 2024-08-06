@@ -13,6 +13,8 @@ export interface Event extends Document {
   images: string[];
   comments: any[];
   attendees: any[];
+  seatsAvailable: number;
+  seatsBooked: number;
 }
 
 // Updated User schema
@@ -40,8 +42,8 @@ const EventSchema: Schema<Event> = new mongoose.Schema({
   },
   category: {
     type: String,
-    required: [true, "category Code is required"],
-    enum: ["All", "Conferences", "Workshops", "Concerts"],
+    required: [true, "category is required"],
+    enum: ["Conferences", "Workshops", "Concerts"],
   },
   ticketPrice: {
     type: Number,
@@ -56,6 +58,14 @@ const EventSchema: Schema<Event> = new mongoose.Schema({
       ref: "User",
     },
   ],
+  seatsAvailable: {
+    type: Number,
+    required: [true, "seatsAvailable is required"],
+  },
+  seatsBooked: {
+    type: Number,
+    required: [false, "seatsBooked is not required"],
+  },
 });
 
 const EventModel =

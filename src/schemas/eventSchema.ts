@@ -37,10 +37,12 @@ const eventSchema = z.object({
       message: "description must not be longer than 500 characters.",
     }),
 
-  date: z.string().refine((value) => !isNaN(Date.parse(value)), {
-    message: "Date must be a valid date.",
-  }),
+  date: z.string({ message: "A date of event is required." }),
+  // date: z.date({ required_error: "A date of event is required." }),
 
+  // time: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, {
+  //   message: "Time must be in HH:MM format.",
+  // }),
   time: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, {
     message: "Time must be in HH:MM format.",
   }),
@@ -50,7 +52,7 @@ const eventSchema = z.object({
       "Invalid category. Choose from 'Tech City', 'Art Town', or 'Music City'.",
   }),
 
-  category: z.enum(["All", "Conferences", "Workshops", "Concerts"], {
+  category: z.enum(["Conferences", "Workshops", "Concerts"], {
     message:
       "Invalid category. Choose from 'All', 'Conferences', 'Workshops', or 'Concerts'.",
   }),
@@ -66,6 +68,14 @@ const eventSchema = z.object({
   comments: z.array(z.string()).optional(),
 
   attendees: z.array(z.string().uuid()).optional(),
+
+  seatsAvailable: z
+    .number()
+    .nonnegative({ message: "ticketPrice must be a non-negative number." }),
+
+  seatsBooked: z
+    .number()
+    .nonnegative({ message: "ticketPrice must be a non-negative number." }),
 });
 
 export default eventSchema;
