@@ -1,27 +1,3 @@
-// import { z } from "zod";
-
-// export const eventSchema = z.object({
-//   title: z
-//     .string()
-//     .min(5, { message: "title must be at least 5 characters." })
-//     .max(20, { message: "title must not be longer than 20 characters." }),
-//   description: z
-//     .string()
-//     .min(10, { message: "description must be at least 10 characters." })
-//     .max(200, {
-//       message: "description must not be longer than 200 characters.",
-//     }),
-//   // date: any
-//   // time: any
-//   location: z.string(),
-//   category: z.string(),
-//   ticketPrice: z.number(),
-//   // ratings: any[]
-//   // images: string[]
-//   // comments: any[]
-//   // attendees: any[]
-// });
-
 import { z } from "zod";
 
 const eventSchema = z.object({
@@ -37,7 +13,7 @@ const eventSchema = z.object({
       message: "description must not be longer than 500 characters.",
     }),
 
-  date: z.string({ message: "A date of event is required." }),
+  date: z.date({ message: "A date of event is required." }),
   // date: z.date({ required_error: "A date of event is required." }),
 
   // time: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, {
@@ -75,7 +51,8 @@ const eventSchema = z.object({
 
   seatsBooked: z
     .number()
-    .nonnegative({ message: "ticketPrice must be a non-negative number." }),
+    .nonnegative({ message: "ticketPrice must be a non-negative number." })
+    .optional(),
 });
 
 export default eventSchema;
