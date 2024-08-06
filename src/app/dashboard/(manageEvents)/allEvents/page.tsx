@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
+import { AppDispatch, RootState } from "@/rtk/app/store";
 import { fetchEventsAction } from "@/rtk/reducers/eventsAction";
 import { clearEventsErrors } from "@/rtk/reducers/eventsSlice";
 import { ApiResponseType } from "@/types/ApiResponseTypes";
@@ -13,18 +14,16 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 const AllEvents = () => {
-  const {
-    isLoading,
-    eventsData: { events = [] },
-    error,
-  } = useSelector((store: any) => store.events);
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
+  const { isLoading, eventsData, error } = useSelector(
+    (store: RootState) => store.events
+  );
   const { toast } = useToast();
   useEffect(() => {
     if (error) {
       toast({
         title: "Events Getting Failed",
-        description: error.message,
+        description: error,
         variant: "destructive",
       });
       dispatch(clearEventsErrors());
@@ -90,7 +89,7 @@ const AllEvents = () => {
           </div>
         </div>
 
-        {events?.map((event, key) => (
+        {eventsData?.map((event, key) => (
           <div
             className="grid grid-cols-6 border-t border-stroke px-4 py-4.5 dark:border-strokedark sm:grid-cols-8 md:px-6 2xl:px-7.5"
             key={key}

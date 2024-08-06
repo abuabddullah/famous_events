@@ -3,8 +3,8 @@
 import { categories } from "@/components/homepage/HomeFeaturedEvents";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/components/ui/use-toast";
-import { Event } from "@/model/Event.model";
-import { fetchEventsAction } from "@/rtk/reducers/eventsAction";
+import { AppDispatch, RootState } from "@/rtk/app/store";
+import { Event, fetchEventsAction } from "@/rtk/reducers/eventsAction";
 import { clearEventsErrors } from "@/rtk/reducers/eventsSlice";
 import Image from "next/image";
 import Link from "next/link";
@@ -14,25 +14,31 @@ import { useDispatch, useSelector } from "react-redux";
 const locations: string[] = ["All", "Tech City", "Art Town", "Music City"];
 
 const EventsPage = () => {
-  const {
-    isLoading,
-    eventsData: { events = [] },
-    error,
-  } = useSelector((store: any) => store.events);
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
+  const { isLoading, eventsData, error } = useSelector(
+    (store: RootState) => store.events
+  );
+
   const { toast } = useToast();
-  const [filteredEvents, setFilteredEvents] = useState<Event[]>(events || []);
+  const [filteredEvents, setFilteredEvents] = useState<Event[]>(
+    eventsData || []
+  );
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
   const [selectedLocation, setSelectedLocation] = useState<string>("All");
   const [sortOption, setSortOption] = useState<string>("date");
   const [currentPage, setCurrentPage] = useState<number>(1);
   const eventsPerPage = 4;
 
+  // // Example usage in a component or function
+  // const loadEvents = () => async (dispatch: AppDispatch) => {
+  //   dispatch(fetchEventsAction());
+  // };
+
   useEffect(() => {
     if (error) {
       toast({
         title: "Events Getting Failed",
-        description: error.message,
+        description: error,
         variant: "destructive",
       });
       dispatch(clearEventsErrors());
@@ -41,7 +47,7 @@ const EventsPage = () => {
   }, [dispatch, error, toast]);
 
   useEffect(() => {
-    let result = Array.isArray(events) ? [...events] : [];
+    let result = Array.isArray(eventsData) ? [...eventsData] : [];
 
     if (selectedCategory !== "All") {
       result = result.filter((event) => event?.category === selectedCategory);
@@ -54,7 +60,7 @@ const EventsPage = () => {
     }
 
     if (selectedCategory == "All" || selectedCategory == "All") {
-      let result = Array.isArray(events) ? [...events] : [];
+      let result = Array.isArray(eventsData) ? [...eventsData] : [];
     }
 
     if (sortOption === "date") {
@@ -67,7 +73,7 @@ const EventsPage = () => {
     }
 
     setFilteredEvents(result);
-  }, [selectedCategory, selectedLocation, sortOption, events]);
+  }, [selectedCategory, selectedLocation, sortOption, eventsData]);
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
@@ -146,7 +152,6 @@ const EventsPage = () => {
                 <p className="text-gray-700 mb-2">{event?.date}</p>
                 <p className="text-gray-500 mb-2">{event?.location}</p>
                 <p className="text-gray-500 mb-2">
-                  {/* // এখানে ratings[] কে .reduce() method দিয়ে avg rating বের করে এনে কাজ করতে হবে */}
                   Rating: {event?.ratings[0]?.rating || 0} / 5
                 </p>
                 <Link href={`events/_id`}>

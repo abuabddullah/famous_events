@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { fetchUsersAction } from "./usersActions";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { fetchUsersAction, FetchUsersResponse } from "./usersActions";
 
 interface InitUserState {
   usersData: any[];
@@ -20,18 +20,21 @@ const usersSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchUsersAction.pending, (state, action) => {
+    builder.addCase(fetchUsersAction.pending, (state) => {
       state.isLoading = true;
     });
-    builder.addCase(fetchUsersAction.fulfilled, (state, action) => {
-      state.isLoading = false;
-      state.usersData = action.payload;
-      state.error = null;
-    });
+    builder.addCase(
+      fetchUsersAction.fulfilled,
+      (state, action: PayloadAction<FetchUsersResponse>) => {
+        state.isLoading = false;
+        state.usersData = action.payload.users || [];
+        state.error = null;
+      }
+    );
     builder.addCase(fetchUsersAction.rejected, (state, action) => {
       state.isLoading = false;
       state.usersData = [];
-      state.error = action.error.message;
+      state.error = action.error.message || "Failed to fetch users";
     });
   },
 });

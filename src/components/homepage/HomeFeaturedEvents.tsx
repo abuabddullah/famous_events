@@ -1,172 +1,9 @@
-import { Event } from "@/model/Event.model";
-import { fetchEventsAction } from "@/rtk/reducers/eventsAction";
+import { AppDispatch, RootState } from "@/rtk/app/store";
+import { Event, fetchEventsAction } from "@/rtk/reducers/eventsAction";
 import { clearEventsErrors } from "@/rtk/reducers/eventsSlice";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useToast } from "../ui/use-toast";
-
-/* export interface Event {
-  title: string;
-  description: string;
-  date: string;
-  time: string;
-  location: string;
-  category: string;
-  ticketPrice: number;
-  ratings: any[];
-  images: string[];
-  comments: any[];
-  attendees: any[];
-}
-
-export const eventsData: Event[] = [
-  {
-    title: "Tech Expo 2024",
-    description:
-      "Join us for the Tech Expo 2024 showcasing the latest in tech innovations and startup pitches.",
-    date: "2024-10-20",
-    time: "10:00 AM",
-    location: "Innovation Hub, 456 Tech Avenue, Tech City",
-    category: "Conferences",
-    ticketPrice: 199,
-    ratings: [
-      {
-        username: "techlover2024",
-        avatar: "https://i.ibb.co/n8BKWG2/event2.jpg",
-        rating: 5,
-      },
-      {
-        username: "codingninja",
-        avatar: "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
-        rating: 4,
-      },
-    ],
-    images: [
-      "https://i.ibb.co/n8BKWG2/event2.jpg",
-      "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
-      "https://i.ibb.co/nbmvQhm/abstract-blur-wedding-hall.jpg",
-    ],
-    comments: [
-      {
-        username: "techlover2024",
-        avatar: "https://i.ibb.co/n8BKWG2/event2.jpg",
-        date: "2024-08-01",
-        commentText: "Exciting event! Can't wait to see the startups.",
-        likes: 5,
-        dislikes: 0,
-        replies: [
-          {
-            username: "startup_enthusiast",
-            avatar: "https://i.ibb.co/nbmvQhm/abstract-blur-wedding-hall.jpg",
-            date: "2024-08-02",
-            commentText: "Same here! Hoping to discover some hidden gems.",
-            likes: 3,
-            dislikes: 0,
-          },
-        ],
-      },
-    ],
-    attendees: [],
-  },
-  {
-    title: "Future Tech Summit 2024",
-    description:
-      "Explore the future of technology at the 2024 Summit featuring talks on AI, robotics, and quantum computing.",
-    date: "2024-11-15",
-    time: "08:30 AM",
-    location: "Tech Innovation Center, 789 Future Road, Techopolis",
-    category: "Workshops",
-    ticketPrice: 349,
-    ratings: [
-      {
-        username: "futuretechfanatic",
-        avatar: "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
-        rating: 4,
-      },
-      {
-        username: "techgeek2023",
-        avatar: "https://i.ibb.co/n8BKWG2/event2.jpg",
-        rating: 5,
-      },
-    ],
-    images: [
-      "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
-      "https://i.ibb.co/nbmvQhm/abstract-blur-wedding-hall.jpg",
-      "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
-    ],
-    comments: [
-      {
-        username: "futuretechfanatic",
-        avatar: "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
-        date: "2024-08-02",
-        commentText: "The lineup looks incredible! Can't wait to attend.",
-        likes: 12,
-        dislikes: 0,
-        replies: [
-          {
-            username: "quantum_enthusiast",
-            avatar: "https://i.ibb.co/n8BKWG2/event2.jpg",
-            date: "2024-08-03",
-            commentText:
-              "I'm particularly interested in the quantum computing sessions.",
-            likes: 8,
-            dislikes: 1,
-          },
-        ],
-      },
-    ],
-    attendees: [],
-  },
-  {
-    title: "AI & Robotics Symposium 2024",
-    description:
-      "Join us for a deep dive into AI and robotics technologies at our annual symposium.",
-    date: "2024-09-30",
-    time: "11:00 AM",
-    location: "RoboTech Center, 101 Robotics Avenue, Innovate City",
-    category: "Concerts",
-    ticketPrice: 249,
-    ratings: [
-      {
-        username: "aitechenthusiast",
-        avatar: "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
-        rating: 4,
-      },
-      {
-        username: "robo2024",
-        avatar: "https://i.ibb.co/nbmvQhm/abstract-blur-wedding-hall.jpg",
-        rating: 4,
-      },
-    ],
-    images: [
-      "https://i.ibb.co/n8BKWG2/event2.jpg",
-      "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
-      "https://i.ibb.co/nbmvQhm/abstract-blur-wedding-hall.jpg",
-    ],
-    comments: [
-      {
-        username: "aitechenthusiast",
-        avatar: "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
-        date: "2024-08-01",
-        commentText:
-          "Exciting lineup of speakers! Looking forward to the discussions.",
-        likes: 6,
-        dislikes: 0,
-        replies: [
-          {
-            username: "robotics_researcher",
-            avatar: "https://i.ibb.co/nbmvQhm/abstract-blur-wedding-hall.jpg",
-            date: "2024-08-02",
-            commentText: "Hope to see advancements in humanoid robotics.",
-            likes: 2,
-            dislikes: 0,
-          },
-        ],
-      },
-    ],
-    attendees: [],
-  },
-]; */
 
 export const categories: string[] = [
   "All",
@@ -176,16 +13,16 @@ export const categories: string[] = [
 ];
 
 const HomeFeaturedEvents = () => {
+  const dispatch: AppDispatch = useDispatch();
   const { isLoading, eventsData, error } = useSelector(
-    (store: any) => store.events
+    (store: RootState) => store.events
   );
-  const dispatch = useDispatch();
   const { toast } = useToast();
   useEffect(() => {
     if (error) {
       toast({
         title: "Events Getting Failed",
-        description: error.message,
+        description: error,
         variant: "destructive",
       });
       dispatch(clearEventsErrors());
@@ -193,14 +30,14 @@ const HomeFeaturedEvents = () => {
     dispatch(fetchEventsAction());
   }, [dispatch, error, toast]);
   const [filteredEvents, setFilteredEvents] = useState<Event[]>(
-    eventsData?.events || []
+    eventsData || []
   );
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
 
   useEffect(() => {
     const filterEvents = () => {
-      let result = eventsData.events;
+      let result = eventsData;
 
       if (searchQuery) {
         result = result.filter(

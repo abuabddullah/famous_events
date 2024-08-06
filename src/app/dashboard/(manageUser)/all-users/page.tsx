@@ -10,6 +10,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from "@/components/ui/use-toast";
+import { AppDispatch, RootState } from "@/rtk/app/store";
 import { fetchUsersAction } from "@/rtk/reducers/usersActions";
 import { clearUsersErrors } from "@/rtk/reducers/usersSlice";
 import { ApiResponseType } from "@/types/ApiResponseTypes";
@@ -23,13 +24,10 @@ import { useDispatch, useSelector } from "react-redux";
 const AllUsers = () => {
   const [editMode, setEditMode] = useState(false);
   const [role, setRole] = useState("");
-  const {
-    isLoading,
-    usersData: { users = [] },
-    error,
-  } = useSelector((store: any) => store.users);
-
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
+  const { isLoading, usersData, error } = useSelector(
+    (store: RootState) => store.users
+  );
   const { toast } = useToast();
 
   useEffect(() => {
@@ -150,10 +148,10 @@ const AllUsers = () => {
             </div>
           </div>
 
-          {users?.map((user, key) => (
+          {usersData?.map((user, key) => (
             <div
               className={`grid grid-cols-3  ${
-                key === users.length - 1
+                key === usersData.length - 1
                   ? ""
                   : "border-b border-stroke dark:border-strokedark"
               }`}
@@ -171,7 +169,7 @@ const AllUsers = () => {
                 </p>
               </div>
 
-              <div className="hidden flex items-center justify-center py-2.5 xl:p-5">
+              <div className="hidden md:flex items-center justify-center py-2.5 xl:p-5">
                 <p className="text-black dark:text-white">{user?.email}</p>
               </div>
 
