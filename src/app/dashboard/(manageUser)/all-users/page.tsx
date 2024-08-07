@@ -19,8 +19,6 @@ import { PenIcon, SaveIcon, Trash, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-// const users = [];
-
 const AllUsers = () => {
   const [editMode, setEditMode] = useState(false);
   const [role, setRole] = useState("");

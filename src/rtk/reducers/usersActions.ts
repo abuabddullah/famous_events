@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 export interface User {
+  _id?: string | any;
   username: string;
   avatar: string;
   role: string;
