@@ -4,8 +4,8 @@ import axios from "axios";
 export const fetchSingleEventAction = createAsyncThunk(
   "event/fetchSingleEventAction",
   async (id) => {
-    const { response } = await axios.get(`/api/events/event/${id}`);
-    return response.data;
+    const { data } = await axios.get(`/api/events/event/${id}`);
+    return data;
   }
 );
 
