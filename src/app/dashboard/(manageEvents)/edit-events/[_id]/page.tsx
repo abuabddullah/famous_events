@@ -10,15 +10,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { useToast } from "@/components/ui/use-toast";
-import { AppDispatch, RootState } from "@/rtk/app/store";
 import { Event } from "@/rtk/reducers/eventsAction";
-import { fetchSingleEventAction } from "@/rtk/reducers/singleEventAction";
-import { clearSingleEventErrors } from "@/rtk/reducers/singleEventSlice";
 import axios from "axios";
 import { MicVocalIcon, PresentationIcon, SettingsIcon } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 
 const EventDetails = ({ params }: { params: { _id: string } }) => {
   const [event, setEvent] = useState<Event | null>(null);
@@ -63,9 +58,8 @@ const EventDetails = ({ params }: { params: { _id: string } }) => {
                 id="title"
                 type="text"
                 name="title"
-                // placeholder="title here ..."
+                placeholder="title here ..."
                 defaultValue={event?.title}
-                placeholder={event?.title}
               />
             </div>
             <div className="grid gap-3">
