@@ -10,60 +10,44 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useToast } from "@/components/ui/use-toast";
+import { AppDispatch, RootState } from "@/rtk/app/store";
+import { Event } from "@/rtk/reducers/eventsAction";
+import { fetchSingleEventAction } from "@/rtk/reducers/singleEventAction";
+import { clearSingleEventErrors } from "@/rtk/reducers/singleEventSlice";
+import axios from "axios";
 import { MicVocalIcon, PresentationIcon, SettingsIcon } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const EventDetails = ({ params }: { params: { _id: string } }) => {
-  const [event, setEvent] = useState({
-    title: "Tech Expo 2024",
-    description:
-      "Join us for the Tech Expo 2024 showcasing the latest in tech innovations and startup pitches.",
-    date: "2024-10-20",
-    time: "10:00 AM",
-    location: "Tech City",
-    category: "Conferences",
-    ticketPrice: 199,
-    ratings: [
-      {
-        username: "techlover2024",
-        avatar: "https://i.ibb.co/n8BKWG2/event2.jpg",
-        rating: 5,
-      },
-      {
-        username: "codingninja",
-        avatar: "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
-        rating: 4,
-      },
-    ],
-    images: [
-      "https://i.ibb.co/n8BKWG2/event2.jpg",
-      "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
-      "https://i.ibb.co/nbmvQhm/abstract-blur-wedding-hall.jpg",
-    ],
-    comments: [
-      {
-        username: "techlover2024",
-        avatar: "https://i.ibb.co/n8BKWG2/event2.jpg",
-        date: "2024-08-01",
-        commentText: "Exciting event! Can't wait to see the startups.",
-        likes: 5,
-        dislikes: 0,
-        replies: [
-          {
-            username: "startup_enthusiast",
-            avatar: "https://i.ibb.co/nbmvQhm/abstract-blur-wedding-hall.jpg",
-            date: "2024-08-02",
-            commentText: "Same here! Hoping to discover some hidden gems.",
-            likes: 3,
-            dislikes: 0,
-          },
-        ],
-      },
-    ],
-    attendees: [],
-    seatsAvailable: 10,
-    seatsBooked: 5,
-  });
+  const [event, setEvent] = useState<Event | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchEvent = async () => {
+      try {
+        const response = await axios.get(`/api/events/event/${params?._id}`);
+        setEvent(response.data.event);
+      } catch (error) {
+        console.error("Error fetching event:", error);
+        setError("Failed to fetch event details.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEvent();
+  }, [params?._id]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <>
@@ -79,8 +63,9 @@ const EventDetails = ({ params }: { params: { _id: string } }) => {
                 id="title"
                 type="text"
                 name="title"
-                placeholder="title here ..."
+                // placeholder="title here ..."
                 defaultValue={event?.title}
+                placeholder={event?.title}
               />
             </div>
             <div className="grid gap-3">

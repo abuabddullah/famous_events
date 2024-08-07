@@ -125,7 +125,7 @@ const AllEvents = () => {
               </p>
             </div>
             <div className="col-span-1 flex items-center gap-2 lg:p-4 py-2">
-              <Link href="/dashboard/edit-events/${_id}">
+              <Link href={`/dashboard/edit-events/${event?._id}`}>
                 <Button className="p-2 lg:p-4 bg-green-600 hover:text-white">
                   <PenIcon />
                 </Button>

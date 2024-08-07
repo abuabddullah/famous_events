@@ -20,58 +20,40 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { AngryIcon, ArrowBigDownIcon, Clock, HeartIcon } from "lucide-react";
 import Image from "next/image";
-
-const event = {
-  title: "Future Tech Summit 2024",
-  description:
-    "Explore the future of technology at the 2024 Summit featuring talks on AI, robotics, and quantum computing.",
-  date: "2024-11-15",
-  time: "08:30 AM",
-  location: "Tech Innovation Center, 789 Future Road, Techopolis",
-  category: "Workshops",
-  ticketPrice: 349,
-  ratings: [
-    {
-      username: "futuretechfanatic",
-      avatar: "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
-      rating: 4,
-    },
-    {
-      username: "techgeek2023",
-      avatar: "https://i.ibb.co/n8BKWG2/event2.jpg",
-      rating: 5,
-    },
-  ],
-  images: [
-    "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
-    "https://i.ibb.co/nbmvQhm/abstract-blur-wedding-hall.jpg",
-    "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
-  ],
-  comments: [
-    {
-      username: "futuretechfanatic",
-      avatar: "https://i.ibb.co/2S6hGJw/event-as-bg.jpg",
-      date: "2024-08-02",
-      commentText: "The lineup looks incredible! Can't wait to attend.",
-      likes: 12,
-      dislikes: 0,
-      replies: [
-        {
-          username: "quantum_enthusiast",
-          avatar: "https://i.ibb.co/n8BKWG2/event2.jpg",
-          date: "2024-08-03",
-          commentText:
-            "I'm particularly interested in the quantum computing sessions.",
-          likes: 8,
-          dislikes: 1,
-        },
-      ],
-    },
-  ],
-  attendees: [],
-};
+import { useEffect, useState } from "react";
+import { Event } from "@/rtk/reducers/eventsAction";
+import axios from "axios";
 
 const EventDetails = ({ params }: { params: { _id: string } }) => {
+  console.log(params._id);
+  const [event, setEvent] = useState<Event | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const fetchEvent = async () => {
+      try {
+        const response = await axios.get(`/api/events/event/${params?._id}`);
+        setEvent(response.data.event);
+      } catch (error) {
+        console.error("Error fetching event:", error);
+        setError("Failed to fetch event details.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEvent();
+  }, [params?._id]);
+
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <>
       <section className="flex-grow flex flex-col items-center justify-center px-4 md:px-24 py-12 bg-slate-700 text-white">
@@ -137,7 +119,7 @@ const EventDetails = ({ params }: { params: { _id: string } }) => {
               <strong>Price:</strong> {event?.ticketPrice}
             </p>
             <p className="text-gray-400 mb-2">
-              <strong>Rating:</strong> {event?.ratings[0].rating} / 5
+              <strong>Rating:</strong> {event?.ratings[0]?.rating || 0} / 5
             </p>
             <p className="text-gray-400 mb-2">
               <strong>Category:</strong> {event?.category}{" "}
@@ -190,7 +172,7 @@ const EventDetails = ({ params }: { params: { _id: string } }) => {
                 </Card>
                 <>
                   {cmnt?.replies.length &&
-                    cmnt?.replies?.map((reply, index) => (
+                    cmnt?.replies?.map((reply: any, index: n) => (
                       <>
                         <Card className="mb-2 ms-10">
                           <CardHeader>

@@ -154,7 +154,7 @@ const EventsPage = () => {
                 <p className="text-gray-500 mb-2">
                   Rating: {event?.ratings[0]?.rating || 0} / 5
                 </p>
-                <Link href={`events/_id`}>
+                <Link href={`events/${event?._id}`}>
                   <Button>See Details ...</Button>
                 </Link>
               </div>

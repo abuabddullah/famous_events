@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { fetchUsersAction, FetchUsersResponse } from "./usersActions";
+import { fetchUsersAction, FetchUsersResponse, User } from "./usersActions";
 
 interface InitUserState {
-  usersData: any[];
+  usersData: User[];
   isLoading: boolean;
   error: any;
 }
