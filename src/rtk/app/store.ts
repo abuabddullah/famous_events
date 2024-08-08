@@ -6,7 +6,6 @@ const store = configureStore({
   reducer: {
     events: eventsReducer,
     users: usersReducer,
-    // event: eventReducer,
   },
 });
 

@@ -1,13 +1,23 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+// import { createAsyncThunk } from "@reduxjs/toolkit";
+// import axios from "axios";
 
-export const fetchSingleEventAction = createAsyncThunk(
-  "event/fetchSingleEventAction",
-  async (id) => {
-    const { data } = await axios.get(`/api/events/event/${id}`);
-    return data;
-  }
-);
+// export const fetchSingleEventAction = createAsyncThunk(
+//   "event/fetchSingleEventAction",
+//   async (id) => {
+//     const { data } = await axios.get(`/api/events/event/${id}`);
+//     return data;
+//   }
+// );
+
+
+
+
+
+
+
+
+
+
 
 // import { createAsyncThunk } from "@reduxjs/toolkit";
 // import axios from "axios";

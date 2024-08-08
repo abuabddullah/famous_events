@@ -172,7 +172,7 @@ const EventDetails = ({ params }: { params: { _id: string } }) => {
                 </Card>
                 <>
                   {cmnt?.replies.length &&
-                    cmnt?.replies?.map((reply: any, index: number) => (
+                    cmnt?.replies?.map((reply: any) => (
                       <>
                         <Card className="mb-2 ms-10">
                           <CardHeader>
