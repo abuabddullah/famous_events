@@ -60,7 +60,7 @@ function Navbar() {
 
               <Button
                 onClick={() => signOut()}
-                className="w-full md:w-auto bg-slate-100 text-black px-0 py-"
+                className="w-full md:w-auto bg-slate-100 text-black px-0 md:px-6"
                 variant="outline"
               >
                 Logout
@@ -74,7 +74,7 @@ function Navbar() {
           ) : (
             <Link href="/sign-in">
               <Button
-                className="w-full md:w-auto bg-slate-100 text-black px-0 py-"
+                className="w-full md:w-auto bg-slate-100 text-black px-0 md:px-6"
                 variant={"outline"}
               >
                 Login

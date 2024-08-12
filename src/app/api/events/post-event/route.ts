@@ -1,9 +1,11 @@
 import dbConnect from "@/lib/dbConnect.ts";
 import EventModel from "@/model/Event.model";
+import { getServerSession } from "next-auth";
+import { authOptions } from "../../auth/[...nextauth]/options";
 
 export const POST = async (request: Request) => {
   await dbConnect();
-  /* 
+
   const session = await getServerSession(authOptions);
   const _user = session?.user;
 
@@ -20,7 +22,7 @@ export const POST = async (request: Request) => {
       { success: false, message: "Not Allowed! You are not admin" },
       { status: 401 }
     );
-  } */
+  }
 
   const eventData = await request.json();
   console.log(eventData);

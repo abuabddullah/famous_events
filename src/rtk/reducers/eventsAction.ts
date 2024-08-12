@@ -10,6 +10,7 @@ export interface Event {
   location: string;
   category: string;
   ticketPrice: number;
+  avgRating: number;
   ratings: any[];
   images: string[];
   comments: any[];

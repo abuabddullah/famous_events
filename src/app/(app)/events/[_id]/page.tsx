@@ -16,34 +16,86 @@ import {
 } from "@/components/ui/card";
 import Autoplay from "embla-carousel-autoplay";
 
+import React5Star from "@/components/eventDetails/React5Star/React5Star";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
+import { toast } from "@/components/ui/use-toast";
+import { ApiResponseType } from "@/types/ApiResponseTypes";
+import axios, { AxiosError } from "axios";
 import { AngryIcon, ArrowBigDownIcon, Clock, HeartIcon } from "lucide-react";
+import { User } from "next-auth";
+import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { Event } from "@/rtk/reducers/eventsAction";
-import axios from "axios";
 
 const EventDetails = ({ params }: { params: { _id: string } }) => {
-  console.log(params._id);
-  const [event, setEvent] = useState<Event | null>(null);
+  const [event, setEvent] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  useEffect(() => {
-    const fetchEvent = async () => {
-      try {
-        const response = await axios.get(`/api/events/event/${params?._id}`);
-        setEvent(response.data.event);
-      } catch (error) {
-        console.error("Error fetching event:", error);
-        setError("Failed to fetch event details.");
-      } finally {
-        setLoading(false);
-      }
-    };
+  const fetchEvent = async (id: string) => {
+    try {
+      const response = await axios.get(`/api/events/event/${id}`);
+      setEvent(response.data.event);
+    } catch (error) {
+      console.error("Error fetching event:", error);
+      setError("Failed to fetch event details.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
-    fetchEvent();
+  const { data: session } = useSession();
+  const user: User = session?.user as User;
+  const initRating =
+    event?.ratings?.find((rating: any) => rating.username == user?.username) ||
+    event?.avgRating;
+  const [rating, setRating] = useState<number | undefined>(
+    initRating || event?.avgRating
+  );
+
+  const handleRatingClick = async (rtg: number) => {
+    setRating(rtg);
+    const data = {
+      username: user?.username,
+      avatar: user?.avatar,
+      rating: rtg,
+    };
+    console.log(data);
+    try {
+      // for submitting form with data
+      const response = await axios.patch<ApiResponseType>(
+        `/api/events/event/${params?._id}`,
+        data
+      );
+
+      toast({
+        title: "Success",
+        description: response.data.message,
+      });
+
+      fetchEvent(params?._id);
+    } catch (error) {
+      // if any error submitting form
+      console.error("Error during editing event:", error);
+
+      const axiosError = error as AxiosError<ApiResponseType>; // ??? returns axiosError-object= {res,req,message}
+
+      // Default error message
+      let errorMessage = axiosError.response?.data.message;
+      ("There was a problem with your rating event. Please try again."); // ???
+
+      toast({
+        title: "rating Event Failed",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    }
+  };
+
+  useEffect(() => {
+    fetchEvent(params?._id);
   }, [params?._id]);
 
   if (loading) {
@@ -72,7 +124,7 @@ const EventDetails = ({ params }: { params: { _id: string } }) => {
           className="w-full max-w-lg md:max-w-xl"
         >
           <CarouselContent>
-            {event?.images?.map((img, index) => (
+            {event?.images?.map((img: string, index: number) => (
               <CarouselItem key={index} className="p-4">
                 <Card>
                   <CardHeader>
@@ -119,7 +171,7 @@ const EventDetails = ({ params }: { params: { _id: string } }) => {
               <strong>Price:</strong> {event?.ticketPrice}
             </p>
             <p className="text-gray-400 mb-2">
-              <strong>Rating:</strong> {event?.ratings[0]?.rating || 0} / 5
+              <strong>Rating:</strong> {Math.floor(event?.avgRating) || 0} / 5
             </p>
             <p className="text-gray-400 mb-2">
               <strong>Category:</strong> {event?.category}{" "}
@@ -127,11 +179,55 @@ const EventDetails = ({ params }: { params: { _id: string } }) => {
             <p className="text-gray-400 mb-2">
               <strong>Ticket Price:</strong> {event?.ticketPrice}
             </p>
-            <Button>Register Event </Button>
+            <div className="md:flex justify-around items-end my-4">
+              <Button>Register Event </Button>
+              <div className="mt-4 md:mt-0">
+                <h2 className="mb-2">Give rating :</h2>
+                <React5Star
+                  rating={rating || event?.avgRating}
+                  handleRatingClick={handleRatingClick}
+                  ratingCardStyle={
+                    "flex gap-2 items-center p-4 rounded-lg text-slate-600 bg-slate-100"
+                  }
+                  ratingStyleOnSelect={"text-orange-400"}
+                  isDisabled={false}
+                />
+              </div>
+            </div>
           </div>
         </div>
 
         {/* card ends */}
+
+        <Carousel
+          plugins={[Autoplay({ delay: 3000 })]} // plugins from embla-autoplay
+          className="w-full max-w-lg md:max-w-xl"
+        >
+          <CarouselContent>
+            {event?.ratings?.map((rating: any, index: number) => (
+              <CarouselItem key={index} className="p-4">
+                <Card>
+                  <CardHeader>
+                    <Avatar>
+                      <AvatarImage src={rating?.avatar} alt="@shadcn" />
+                      <AvatarFallback>{rating?.username}</AvatarFallback>
+                    </Avatar>
+                    <CardTitle>{rating?.username}</CardTitle>
+                  </CardHeader>
+                  <CardContent className=" flex justify-center items-center">
+                    <React5Star
+                      rating={rating?.rating}
+                      handleRatingClick={() => {}}
+                      isDisabled={true}
+                      ratingCardStyle="flex gap-2 items-center p-4 rounded-lg text-slate-600 bg-slate-100"
+                      ratingStyleOnSelect="text-orange-400"
+                    />
+                  </CardContent>
+                </Card>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+        </Carousel>
 
         <div className="w-full my-8">
           <div className="grid w-full gap-2">
@@ -148,7 +244,7 @@ const EventDetails = ({ params }: { params: { _id: string } }) => {
           </strong>
         </small>
         <div className="w-full my-8">
-          {event?.comments?.map((cmnt, index) => (
+          {event?.comments?.map((cmnt: any) => (
             <>
               <div>
                 <Card className="mb-2">

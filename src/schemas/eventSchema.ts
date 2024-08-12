@@ -1,5 +1,11 @@
 import { z } from "zod";
 
+const ratingSchema = z.object({
+  rating: z.number().min(0).max(5),
+  username: z.string(),
+  avatar: z.string(),
+});
+
 const eventSchema = z.object({
   title: z
     .string()
@@ -36,8 +42,8 @@ const eventSchema = z.object({
   ticketPrice: z
     .number()
     .nonnegative({ message: "ticketPrice must be a non-negative number." }),
-
-  ratings: z.array(z.number().min(0).max(5)).optional(),
+  avgRating: z.number().optional(),
+  ratings: z.array(ratingSchema).optional(),
 
   images: z.array(z.string().url()).optional(),
 

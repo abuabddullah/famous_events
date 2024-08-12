@@ -69,7 +69,7 @@ const EventsPage = () => {
       );
     } else if (sortOption === "rating") {
       // এখানে ratings[] কে .reduce() method দিয়ে avg rating বের করে এনে কাজ করতে হবে
-      result.sort((a, b) => b.ratings[0].rating - a.ratings[0].rating);
+      result.sort((a, b) => b.avgRating - a.avgRating);
     }
 
     setFilteredEvents(result);
@@ -152,7 +152,7 @@ const EventsPage = () => {
                 <p className="text-gray-700 mb-2">{event?.date}</p>
                 <p className="text-gray-500 mb-2">{event?.location}</p>
                 <p className="text-gray-500 mb-2">
-                  Rating: {event?.ratings[0]?.rating || 0} / 5
+                  Rating: {event?.avgRating || 0} / 5
                 </p>
                 <Link href={`events/${event?._id}`}>
                   <Button>See Details ...</Button>

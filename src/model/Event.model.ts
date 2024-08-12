@@ -10,6 +10,7 @@ export interface Event extends Document {
   category: string;
   ticketPrice: number;
   ratings: any[];
+  avgRating: number;
   images: string[];
   comments: any[];
   attendees: any[];
@@ -48,6 +49,10 @@ const EventSchema: Schema<Event> = new mongoose.Schema({
   ticketPrice: {
     type: Number,
     required: [true, "ticket-Price Expiry is required"],
+  },
+  avgRating: {
+    type: Number,
+    default: 0,
   },
   ratings: [],
   images: [],

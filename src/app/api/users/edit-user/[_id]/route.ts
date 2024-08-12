@@ -1,14 +1,17 @@
+import { authOptions } from "@/app/api/auth/[...nextauth]/options";
 import dbConnect from "@/lib/dbConnect.ts";
 import UserModel from "@/model/User.model";
+import { getServerSession } from "next-auth";
 
 export const PUT = async (
   request: Request,
   { params }: { params: { _id: string } }
 ) => {
   await dbConnect();
-  /* 
+
   const session = await getServerSession(authOptions);
   const _user = session?.user;
+  console.log(_user);
 
   if (!session || !_user) {
     console.log({ success: false, message: "Not authenticated" });
@@ -23,7 +26,7 @@ export const PUT = async (
       { success: false, message: "Not Allowed! You are not admin" },
       { status: 401 }
     );
-  } */
+  }
 
   const role = await request.json();
   try {
