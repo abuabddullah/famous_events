@@ -17,9 +17,9 @@ import {
 import Autoplay from "embla-carousel-autoplay";
 
 import React5Star from "@/components/eventDetails/React5Star/React5Star";
+import SubmitCommentBox from "@/components/eventDetails/SubmitCommentBox";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
 import { toast } from "@/components/ui/use-toast";
 import { ApiResponseType } from "@/types/ApiResponseTypes";
 import axios, { AxiosError } from "axios";
@@ -88,6 +88,39 @@ const EventDetails = ({ params }: { params: { _id: string } }) => {
 
       toast({
         title: "rating Event Failed",
+        description: errorMessage,
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleReaction = async (commentId: string, reaction: string) => {
+    const data = { commentId, reaction };
+    console.log(data);
+
+    try {
+      // for submitting form with data
+      const response = await axios.patch<ApiResponseType>(
+        `/api/events/comment/${params?._id}`,
+        data
+      );
+      fetchEvent(params?._id);
+      toast({
+        title: "Success",
+        description: response.data.message,
+      });
+    } catch (error) {
+      // if any error submitting form
+      console.error("Error during editing event:", error);
+
+      const axiosError = error as AxiosError<ApiResponseType>; // ??? returns axiosError-object= {res,req,message}
+
+      // Default error message
+      let errorMessage = axiosError.response?.data.message;
+      ("There was a problem with your editing event. Please try again."); // ???
+
+      toast({
+        title: "edit Event Failed",
         description: errorMessage,
         variant: "destructive",
       });
@@ -230,13 +263,11 @@ const EventDetails = ({ params }: { params: { _id: string } }) => {
         </Carousel>
 
         <div className="w-full my-8">
-          <div className="grid w-full gap-2">
-            <Textarea
-              className="text-black"
-              placeholder="Type your comment here."
-            />
-            <Button>Comment Now</Button>
-          </div>
+          <SubmitCommentBox
+            fetchEvent={fetchEvent}
+            eventId={params?._id}
+            user={user}
+          />
         </div>
         <small className="border p-4 rounded-sm">
           <strong className="flex items-center gap-2">
@@ -257,41 +288,23 @@ const EventDetails = ({ params }: { params: { _id: string } }) => {
                   </CardContent>
                   <CardFooter>
                     <p className="flex gap-2 me-8">
-                      <HeartIcon className="text-red-700 cursor-pointer" />
+                      <HeartIcon
+                        onClick={() => handleReaction(cmnt?.commentId, "likes")}
+                        className="text-red-700 cursor-pointer"
+                      />
                       {cmnt?.likes}
                     </p>
                     <p className="flex gap-2 me-8">
-                      <AngryIcon className="text-slate-700 cursor-pointer" />
+                      <AngryIcon
+                        onClick={() =>
+                          handleReaction(cmnt?.commentId, "dislikes")
+                        }
+                        className="text-slate-700 cursor-pointer"
+                      />
                       {cmnt?.dislikes}
                     </p>
                   </CardFooter>
                 </Card>
-                <>
-                  {cmnt?.replies.length &&
-                    cmnt?.replies?.map((reply: any) => (
-                      <>
-                        <Card className="mb-2 ms-10">
-                          <CardHeader>
-                            <CardTitle>{reply?.username}</CardTitle>
-                            <CardDescription>{reply?.date}</CardDescription>
-                          </CardHeader>
-                          <CardContent>
-                            <p>{reply?.commentText}</p>
-                          </CardContent>
-                          <CardFooter>
-                            <p className="flex gap-2 me-8">
-                              <HeartIcon className="text-red-700 cursor-pointer" />
-                              {reply?.likes}
-                            </p>
-                            <p className="flex gap-2 me-8">
-                              <AngryIcon className="text-slate-700 cursor-pointer" />
-                              {reply?.dislikes}
-                            </p>
-                          </CardFooter>
-                        </Card>
-                      </>
-                    ))}
-                </>
               </div>
             </>
           ))}

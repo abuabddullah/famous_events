@@ -327,29 +327,6 @@ const EventDetails = ({ params }: { params: { _id: string } }) => {
                 />
               </div>
 
-              {/* <div className="grid gap-3">
-              <FormField
-                name="date"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Date</FormLabel>
-                    <Input
-                      type="date"
-                      {...field}
-                      name="date"
-                      // defaultValue={}
-                    />
-
-                    <FormDescription className="text-xs">
-                      picked date must be of future.
-                    </FormDescription>
-                    <FormMessage className="text-xs" />
-                  </FormItem>
-                )}
-              />
-            </div> */}
-
               <div className="grid gap-3">
                 <FormField
                   name="time"

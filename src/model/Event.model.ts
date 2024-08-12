@@ -56,7 +56,42 @@ const EventSchema: Schema<Event> = new mongoose.Schema({
   },
   ratings: [],
   images: [],
-  comments: [],
+  comments: [
+    {
+      username: String,
+      commentText: String,
+      likes: {
+        type: Number,
+        default: 0,
+      },
+      dislikes: {
+        type: Number,
+        default: 0,
+      },
+      date: {
+        type: Date,
+        default: Date.now,
+      },
+      replies: [
+        {
+          username: String,
+          commentText: String,
+          likes: {
+            type: Number,
+            default: 0,
+          },
+          dislikes: {
+            type: Number,
+            default: 0,
+          },
+          date: {
+            type: Date,
+            default: Date.now,
+          },
+        },
+      ],
+    },
+  ],
   attendees: [
     {
       type: ObjectId,

@@ -20,11 +20,7 @@ const eventSchema = z.object({
     }),
 
   date: z.date({ message: "A date of event is required." }),
-  // date: z.date({ required_error: "A date of event is required." }),
 
-  // time: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, {
-  //   message: "Time must be in HH:MM format.",
-  // }),
   time: z.string().regex(/^([01]\d|2[0-3]):([0-5]\d)$/, {
     message: "Time must be in HH:MM format.",
   }),
