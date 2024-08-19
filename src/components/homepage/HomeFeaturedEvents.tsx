@@ -4,6 +4,7 @@ import { clearEventsErrors } from "@/rtk/reducers/eventsSlice";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useToast } from "../ui/use-toast";
+import Link from "next/link";
 
 export const categories: string[] = [
   "All",
@@ -120,6 +121,9 @@ const HomeFeaturedEvents = () => {
                 <p className="text-gray-400 mb-2">
                   <strong>Price:</strong> {event.ticketPrice}
                 </p>
+                <Link href={`events/${event?._id}`}>
+                  <button>See details</button>
+                </Link>
               </div>
             ))
           ) : (
