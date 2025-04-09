@@ -1,36 +1,104 @@
-<!-- This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Famous Events Web App
 
-## Getting Started
+Welcome to the **Famous Events** web app! This application is built using modern web technologies and offers a dynamic, responsive, and interactive experience for users. It showcases JWT-based authentication, secure access control, and an intuitive user interface, along with advanced data visualization features.
 
-First, run the development server:
+## Live Demo
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+You can view the live application here:
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+[**Famous Events - Live**](https://famous-events.vercel.app/)
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Screenshot
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+![Famous Events Screenshot](https://res.cloudinary.com/dglsw3gml/image/upload/v1744165666/portfolio/Famous_events_zgchx9.png)
 
-## Learn More
+## Repository
 
-To learn more about Next.js, take a look at the following resources:
+The source code is available on GitHub:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+[**Famous Events - GitHub**](https://github.com/abuabddullah/famous_events.git)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Features
 
-## Deploy on Vercel
+- **JWT-based Authentication:** Secure login and access control using JSON Web Tokens (JWT).
+- **Next Auth Integration:** A seamless authentication process with Next Auth.
+- **Dynamic Dashboard:** A dashboard with interactive data visualizations for a rich user experience.
+- **Responsive Design:** Optimized for both desktop and mobile devices, ensuring a smooth experience on all screen sizes.
+- **Search Functionality:** Easily search for events or data with a responsive and efficient search bar.
+- **Secure and Scalable:** Built with modern tools and techniques for a secure, reliable, and scalable application.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Technologies Used
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details. -->
+This project is built using the following technologies:
+
+### Frontend
+- **Next.js** (Version 14.2.5) - A React framework for building fast, static, and dynamic web applications.
+- **Tailwind CSS** (Version 3.4.1) - A utility-first CSS framework for building custom designs without having to leave your HTML.
+- **React** (Version 18) - A JavaScript library for building user interfaces.
+- **React-Redux** (Version 9.1.2) - A predictable state container for JavaScript apps.
+- **React Hook Form** (Version 7.52.1) - A simple library for managing forms in React.
+- **Radix UI** - A set of low-level UI primitives for building accessible, high-quality design systems and components.
+
+### Backend
+- **Node.js** - A JavaScript runtime for building scalable server-side applications.
+- **Mongoose** (Version 8.5.1) - MongoDB object modeling for Node.js.
+- **Next Auth** - Authentication for Next.js applications, including JWT-based authentication.
+- **bcryptjs** - A library for hashing passwords securely.
+- **Axios** - A promise-based HTTP client for making API requests.
+
+### Other Libraries and Tools
+- **Zod** - TypeScript-first schema declaration and validation.
+- **ai** - OpenAI API client for integrating GPT-based AI features.
+- **Date-fns** & **Dayjs** - Libraries for date manipulation and formatting.
+- **Embla Carousel** - A lightweight, flexible carousel for displaying content.
+
+## Installation
+
+To get started with the project locally, follow the steps below:
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/abuabddullah/famous_events.git
+   ```
+
+2. Navigate to the project directory:
+   ```bash
+   cd famous_events
+   ```
+
+3. Install the dependencies:
+   ```bash
+   npm install
+   ```
+
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+   Now you can open the application in your browser at `http://localhost:3000`.
+
+## Scripts
+
+This project includes the following NPM scripts:
+
+- `npm run dev`: Starts the development server.
+- `npm run build`: Builds the application for production.
+- `npm run start`: Starts the application in production mode.
+- `npm run lint`: Runs the linter to check the code quality.
+
+## Contributing
+
+If you'd like to contribute to the project, feel free to fork the repository, create a new branch, and submit a pull request. Please ensure to follow the existing coding style and include tests where applicable.
+
+## License
+
+This project is private and not open source.
+
+## Contact
+
+For any inquiries, feel free to reach out to the project maintainer:
+
+- **Abu Abdullah**  
+  [GitHub Profile](https://github.com/abuabddullah)  
+
